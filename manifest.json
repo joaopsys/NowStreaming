@@ -1,0 +1,30 @@
+{
+	"manifest_version": 2,
+
+	"name": "NowStreaming Test",
+	"description": "Get instant notifications when your favorite streamers start streaming!",
+	"version": "0.3",
+	"author": "Jota",
+
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_title": "NowStreaming",
+		"default_popup": "popup.html"
+	},
+	
+	"permissions": [
+		"notifications",
+		"activeTab",
+		"alarms",
+		"storage",
+		"http://api.twitch.tv/*",
+		"https://api.twitch.tv/*",
+		"http://*.jtvnw.net/*",
+		"https://*.jtvnw.net/*"
+	]
+}
