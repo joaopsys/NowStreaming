@@ -11,10 +11,16 @@ h1 {
 	text-shadow: 0px 1px 1px #4d4d4d;
 	color: #222;
 }
-#streamersDiv a { color: #c64119; border-bottom: 1px solid #c64119; text-decoration: none; }
+/*#manageFollowing a,*/
+#streamersDiv a { 
+	color: #c64119; border-bottom: 1px solid #c64119; text-decoration: none;
+}
+/*#manageFollowing a,*/
+#streamersDiv a { 
+	color: #993213; border-bottom: 1px solid #993213; 
+}
 
-#streamersDiv a { color: #993213; border-bottom: 1px solid #993213; }
-
+#manageFollowing,
 #followingDiv,
 #streamersDiv{
 	font-family: "Lucida Grande", Tahoma;
