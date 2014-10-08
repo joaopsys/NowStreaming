@@ -10,20 +10,20 @@ function addToStorage(channel, remove, callback){
 			delete streamers[channel];
 		}
 		else
-			streamers[channel] = {flag:1,url:"null",game:"null"};
+			streamers[channel] = {flag:1,url:"null",game:"null",viewers:0};
 		/* Follow or unfollow? Update both sync and local */
 		chrome.storage.sync.set({'streamers': streamers}, function () {
 		});
-		
+
 		chrome.storage.local.get({streamers:{}}, function (result) {
 			streamers = result.streamers;
 			if (remove){
 				delete streamers[channel];
 			}
 			else
-				streamers[channel] = {flag:0,url:"null",game:"null"};
+				streamers[channel] = {flag:0,url:"null",game:"null",viewers:0};
 			chrome.storage.local.set({'streamers': streamers}, function () {
-			
+
 				var opt;
 				if (remove){
 					opt = {
@@ -31,7 +31,7 @@ function addToStorage(channel, remove, callback){
 					  title: "NowStreaming",
 					  message: "You unfollowed "+channel+"!",
 					  iconUrl: "cross.png"
-					}	
+					}
 				}
 				else{
 					opt = {
@@ -39,7 +39,7 @@ function addToStorage(channel, remove, callback){
 					  title: "NowStreaming",
 					  message: "You are now following "+channel+"!",
 					  iconUrl: "check.png"
-					}	
+					}
 				}
 				chrome.notifications.clear(remove==1?"un":"" + "follow"+channel, function(wasCleared) {});
 				chrome.notifications.create(remove==1?"un":"" + "follow"+channel, opt, function(id) {updateCore(0,function(){callback();}); });
@@ -62,7 +62,7 @@ chrome.runtime.onStartup.addListener(function() {
 	/* Get followers from sync, put them on local */
 	chrome.storage.sync.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
-		
+
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers}, function () {
 			//console.log("Meti isto ^ no local ");
@@ -77,7 +77,7 @@ chrome.runtime.onInstalled.addListener(function () {
 	/* Get followers from sync, put them on local */
 	chrome.storage.sync.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
-		
+
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers}, function () {
 			//console.log("Meti isto ^ no local ");
@@ -116,20 +116,20 @@ function updateCore(is_first_run,callback) {
 	var streamers = {};
 	var url = "https://api.twitch.tv/kraken/streams?channel=";
 	temp = "";
-	
+
 	/*Load streamers*/
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		console.log(streamers);
-		
+
 		/* Not following anyone? Don't do anything */
-		
+
 		if (isEmpty(streamers)){
 			chrome.browserAction.setBadgeText({"text": ""});
 			callback();
 			return;
 		}
-		
+
 		/* Add streamers to URL so we can send them all in one request */
 		for (var key in streamers){
 			url+=key+",";
@@ -162,14 +162,15 @@ function updateCore(is_first_run,callback) {
 							}
 							chrome.notifications.clear(tmpname+"-"+tmpurl, function(wasCleared) {});
 							chrome.notifications.create(tmpname+"-"+tmpurl, opt, function(id){});
-							
+
 							/* Notification sent, update values on storage */
-							streamers[json.streams[i].channel.name].flag = 1; 
-							streamers[json.streams[i].channel.name].game = json.streams[i].game;
+							streamers[json.streams[i].channel.name].flag = 1;
 							streamers[json.streams[i].channel.name].url = json.streams[i].channel.url;
 						}
+						streamers[json.streams[i].channel.name].game = json.streams[i].game;
+						streamers[json.streams[i].channel.name].viewers = json.streams[i].viewers;
 					}
-					
+
 					/* Check which ones were not streaming so we reset values */
 					for (var key in streamers){
 						if (temp.indexOf(key) == -1){
