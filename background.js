@@ -153,7 +153,7 @@ function updateCore(is_first_run,callback) {
 	/*Load streamers*/
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
-		console.log(streamers);
+		//console.log(streamers);
 
 		/* Not following anyone? Don't do anything */
 
@@ -173,15 +173,15 @@ function updateCore(is_first_run,callback) {
 					json = JSON.parse(xhr.responseText);
 					var onlineStreams=0;
 					/* If anyone is streaming then this loop will run */
-					console.log(json);
-					console.log("Length: "+json.streams.length+" e "+json._total);
+					//console.log(json);
+					//console.log("Length: "+json.streams.length+" e "+json._total);
 					for (i=0;i<json.streams.length;i++){
 						/* We will need this temp so we can check which streamers are NOT streaming in the end */
 						temp = temp.concat(json.streams[i].channel.name);
 						onlineStreams++;
 						/* If stream is up and notification has not been sent, then send it */
 						if (streamers[json.streams[i].channel.name].flag == 0){
-							console.log("A mandar not do "+json.streams[i].channel.name);
+							//console.log("A mandar not do "+json.streams[i].channel.name);
 							tmpname = json.streams[i].channel.name;
 							tmpurl = json.streams[i].channel.url;
 							var opt = {
@@ -207,7 +207,7 @@ function updateCore(is_first_run,callback) {
 					/* Check which ones were not streaming so we reset values */
 					for (var key in streamers){
 						if (temp.indexOf(key) == -1){
-							console.log("Meti alguem a 0 -"+key);
+							//console.log("Meti alguem a 0 -"+key);
 							streamers[key].flag = 0;
 						}
 					}
