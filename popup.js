@@ -6,8 +6,9 @@ $(document).ready(function () {
 	$("#streamersTable").hide();
 	$("#loadingFollowing").show();
 	$("#loadingStreams").show();
+	//$("#followingDiv").hide();
 
-	$("#forceUpdate").bind("click", onForceUpdate);
+	//$("#forceUpdate").bind("click", onForceUpdate);
 
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
