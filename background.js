@@ -176,10 +176,10 @@ function updateCore(is_first_run,callback) {
 
 							/* Notification sent, update values on storage */
 							streamers[json.streams[i].channel.name].flag = 1;
-							streamers[json.streams[i].channel.name].url = json.streams[i].channel.url;
 						}
 						streamers[json.streams[i].channel.name].game = json.streams[i].game;
 						streamers[json.streams[i].channel.name].viewers = json.streams[i].viewers;
+						streamers[json.streams[i].channel.name].url = json.streams[i].channel.url;
 					}
 
 					/* Check which ones were not streaming so we reset values */
