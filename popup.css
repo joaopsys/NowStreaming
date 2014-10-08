@@ -24,6 +24,7 @@ h1 {
 #importDiv,
 #manageFollowing,
 #followingDiv,
+#textBox,
 #streamersDiv{
 	font-family: "Lucida Grande", Tahoma;
 	font-size: 10px;
@@ -48,11 +49,6 @@ h1 {
 	margin-left: auto;
 	margin-right: auto;
 }
-#textBox{
-      margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
 #exportBox{
     height:200px;
     width:300px;
@@ -68,6 +64,7 @@ h1 {
 tr{
 	text-align:center;
 }
+#textBox,
 #noteUnfollowAll{
 	font-size: 8px;
 }
