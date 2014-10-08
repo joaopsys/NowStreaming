@@ -24,7 +24,7 @@ $(document).ready(function () {
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTable").show();
-				$("#streamersTable").append("<tr id=\"row"+key+"\" align=\"center\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" width=\"19\" height=\"19\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
+				$("#streamersTable").append("<tr id=\"row"+key+"\" align=\"center\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"19\" height=\"19\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
 			}
 		}
 		$("#loadingFollowing").hide();
