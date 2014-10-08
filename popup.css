@@ -34,6 +34,27 @@ h1 {
 	text-align: center!important;
 	letter-spacing: 0.3em;
 }
+#followingDiv a{
+	float:right;
+}
+#streamersTable,
+#topButtonsTable{
+	width:100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#streamersTable img{
+	width:30px;
+	height:30px;
+}
+#followingDiv img{
+	width:15px;
+	height:15px;
+}
+tr{
+	text-align:center;
+}
 #noteUnfollowAll{
 	font-size: 8px;
 }

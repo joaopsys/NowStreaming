@@ -24,12 +24,12 @@ $(document).ready(function () {
 		var nstreams=0;
 		for (var key in streamers){
 			nfollowing++;
-			$("#followingDiv").append("<div id=\""+key+"\">"+key+"<span style=\"float:right;\"><a id=\"unfollow-"+key+"\" href=\"#\"><img src=\"cross.png\" width=\"15\" height=\"15\"/></a></span></div><br>");
+			$("#followingDiv").append("<div id=\""+key+"\">"+key+"<a id=\"unfollow-"+key+"\" href=\"#\"><img src=\"cross.png\"/></a></div><br>");
 			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1,nfollowing:nfollowing,nstreams:nstreams},followCurrent);
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTable").show();
-				$("#streamersTable").append("<tr id=\"row"+key+"\" align=\"center\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"30\" height=\"30\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
+				$("#streamersTable").append("<tr id=\"row"+key+"\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"30\" height=\"30\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
 			}
 		}
 		$("#loadingFollowing").hide();
