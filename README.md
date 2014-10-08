@@ -9,7 +9,7 @@ Changelog
 
 0.4:
 - Many core changes to how/what data is stored
-- Popup window got a facelift
+- Popup window got a facelift (added game, viewers, unfollow options)
 - Some minor bug fixes
 
 0.3:

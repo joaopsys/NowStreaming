@@ -1,25 +1,29 @@
 $(document).ready(function () {
 	$("#streamersDiv").show();
 	$("#followCurrentButton").hide();
-	
+
 	$("#forceUpdate").bind("click", onForceUpdate);
-	
+
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
-		
+		var defaulticon = "icon";
+		var defaulticonpath = "gameicons/";
+		var defaulticontype = ".png";
 		for (var key in streamers){
-			$("#followingDiv").append(key+"\t\t\t&bull; \tUnfollow<br>");
-			if (streamers[key].flag)
-				$("#streamersDiv").append("<div id=\""+key+"\"><img src=\"gameicons/"+streamers[key].game.replace(/\:| /g,'')+".png\" width=\"19\" height=\"19\"/></a><a href=\""+streamers[key].url+"\"target=\"_blank\">"+key+"<br></div>");
+			$("#followingDiv").append("<div id=\""+key+"\">"+key+"<span style=\"float:right;\"><a id=\"unfollow-"+key+"\" href=\"#\"><img src=\"cross.png\" width=\"15\" height=\"15\"/></a></span></div><br>");
+			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1},followCurrent);
+			if (streamers[key].flag){
+				$("#streamersTable").append("<tr align=\"center\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" width=\"19\" height=\"19\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
+			}
 		}
-		
+
 		chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
 			tabUrl = arrayOfTabs[0].url;
-			
+
 			if (tabUrl.indexOf("twitch.tv/") != -1){
 				var parts = tabUrl.split('/');
 				var name = parts[3];
-				
+
 				/* Check if name is a streamer */
 					if (isAStreamer(name)){
 						if (streamers[name])
@@ -33,9 +37,25 @@ $(document).ready(function () {
 					}
 			}
 		});
-		
+
 	});
 });
+
+function imageExists(url)
+{
+    if(url){
+				try{
+	        var req = new XMLHttpRequest();
+	        req.open('GET', url, false);
+	        req.send();
+	        return req.status==200;
+				} catch(e){
+					return 0;
+				}
+    } else {
+        return false;
+    }
+}
 
 function onForceUpdate(){
 	chrome.runtime.getBackgroundPage(function(backgroundPage) {
