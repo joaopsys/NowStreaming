@@ -6,10 +6,13 @@ $(document).ready(function () {
 	$("#streamersTable").hide();
 	$("#loadingFollowing").show();
 	$("#loadingStreams").show();
+	$("#inputTwitchUser").hide();
 	//$("#followingDiv").hide();
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
-	$("#syncTwitchButton").bind("click", {user: "xazurik"},syncWithTwitch);
+	$("#syncTwitchButton").bind("click", showTwitchForm);
+	$("#submitButton").bind("click", syncWithTwitch);
+	$("#unfollowAllButton").bind("click", unfollowAll);
 
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
@@ -68,15 +71,19 @@ $(document).ready(function () {
 	});
 });
 
-function syncWithTwitch(event){
-	var url = "https://api.twitch.tv/kraken/users/"+event.data.user+"/follows/channels";
+function showTwitchForm(){
+	$("#inputTwitchUser").show();
+}
+
+function syncWithTwitch(){
+	var user = document.getElementById("twitchuser").value;
+	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels";
 	var streamers = {};
 	var xhr = new XMLHttpRequest();
 	/*Load streamers*/
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		var json;
 		streamers = result.streamers;
-		console.log(streamers);
 		xhr.open('get', url,true);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200){
@@ -91,6 +98,11 @@ function syncWithTwitch(event){
 		}
 		xhr.send();
 	});
+}
+
+function unfollowAll(){
+	chrome.storage.local.clear();
+	onForceUpdate();
 }
 
 function imageExists(url)

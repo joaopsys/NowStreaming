@@ -9,6 +9,9 @@
 <button type="button" id="unfollowCurrentButton"></button>
 <button type="button" id="followCurrentButton"></button>
 <button type="button" id="syncTwitchButton">Sync w/ Twitch</button>
+<div id="inputTwitchUser">
+Twitch username: <input type="text" id="twitchuser"/> <button type="button" id="submitButton">Lel</button>
+</div>
 <h1>Now Streaming: <!--<a id="forceUpdate" href="#"><img src="icon.png" width="19" height="19"/></a>--></h1>
 <div id="streamersDiv">
 <div id="noStreams">There are no streams online :(</div>
@@ -28,5 +31,9 @@
 	<div id="noFollowing">You're not following any streamer.<br><br>To start following someone, go to their Twitch channel and click the NowStreaming icon!</div>
 	<div id="loadingFollowing"><img src="loading.gif"/></div>
 	</div>
+	<div id ="unfollowAll">
+		<button type="button" id="unfollowAllButton">Unfollow All</button><br>
+		<font size="1%" >(This won't affect your Twitch account)</font>
+		</div>
 </body>
 </html>
