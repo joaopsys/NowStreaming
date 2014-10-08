@@ -9,6 +9,9 @@ Changelog
 
 0.5:
 - Minor bug fixes
+- Added export/import local data. You can now keep your favorite streamers even if you format your hard drive :)
+- Hotfix for users following tons of people on twitch
+
 
 0.4:
 - Many core changes to how/what data is stored
