@@ -8,12 +8,17 @@ $(document).ready(function () {
 	$("#loadingStreams").show();
 	$("#inputTwitchUser").hide();
 	$("#unfollowAll").show();
+	$("#textBox").hide();
+	$("#importDiv").hide();
 	//$("#followingDiv").hide();
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
 	$("#syncTwitchButton").bind("click", showTwitchForm);
 	$("#submitButton").bind("click", syncWithTwitch);
 	$("#unfollowAllButton").bind("click", unfollowAll);
+	$("#exportFollowingButton").bind("click", exportFollowing);
+	$("#importFollowingButton").bind("click",importFollowing);
+	$("#submitData").bind("click", importData);
 
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
@@ -108,6 +113,36 @@ function syncWithTwitch(){
 		}
 		xhr.send();
 	});
+}
+
+function exportFollowing(){
+	chrome.storage.local.get({streamers:{}}, function (result) {
+		$("#textBox").show();
+		var streamers = result.streamers;
+		$("#exportBox").val(JSON.stringify(streamers));
+		/*url = 'data:text/json;charset=utf8,' + encodeURIComponent(streamers["sodapoppin"]);
+		window.open(url, '_blank');
+		window.focus();*/
+	});
+}
+
+function importFollowing(){
+	$("#importDiv").show();
+}
+
+function importData(){
+	var data = document.getElementById("importData").value;
+	try{
+		var streamers = JSON.parse(data);
+		chrome.storage.local.set({'streamers': streamers}, function () {
+			chrome.runtime.getBackgroundPage(function(backgroundPage) {
+				backgroundPage.updateCore(1,function(){location.reload();});
+				//location.reload();
+			});
+		});
+	}catch(e){
+		alert("Invalid data format!");
+	}
 }
 
 function unfollowAll(){

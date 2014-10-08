@@ -21,6 +21,7 @@ h1 {
 }
 #unfollowAll,
 #inputTwitchUser,
+#importDiv,
 #manageFollowing,
 #followingDiv,
 #streamersDiv{
@@ -34,16 +35,28 @@ h1 {
 	text-align: center!important;
 	letter-spacing: 0.3em;
 }
+#importData{
+  width:200px;
+}
 #followingDiv a{
 	float:right;
 }
+#bottomButtonsTable,
 #streamersTable,
 #topButtonsTable{
 	width:100%;
 	margin-left: auto;
 	margin-right: auto;
 }
-
+#textBox{
+      margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+#exportBox{
+    height:200px;
+    width:300px;
+}
 #streamersTable img:not(#loading1){
 	width:30px;
 	height:30px;
@@ -68,9 +81,36 @@ tr{
   line-height: 1em;
   padding: 0 1em; 
   text-decoration: none;
+  background: linear-gradient(#D60A0A,#B20808);
+  text-shadow: 1px 1px 1px #57B245; 
+}
+#exportFollowingButton{
+  background: #CCC; 
+  color: #FFF;
+  display: inline-block;
+  border-radius: 1px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+  font-family: Arial, sans-serif;
+  line-height: 1em;
+  padding: 0 1em; 
+  text-decoration: none;
   background: linear-gradient(#333333,#161616);
   text-shadow: 1px 1px 1px #57B245; 
 }
+#importFollowingButton{
+  background: #CCC; 
+  color: #FFF;
+  display: inline-block;
+  border-radius: 1px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+  font-family: Arial, sans-serif;
+  line-height: 1em;
+  padding: 0 1em; 
+  text-decoration: none;
+  background: linear-gradient(#333333,#161616);
+  text-shadow: 1px 1px 1px #57B245; 
+}
+#submitData,
 #submitButton{
   background: #CCC; 
   color: #FFF;
@@ -123,8 +163,14 @@ tr{
   background: linear-gradient(#D60A0A,#B20808);
   text-shadow: 1px 1px 1px #B20808; 
 }
+#importFollowingButton:active,
+#importFollowingButton:hover,
+#exportFollowingButton:active,
+#exportFollowingButton:hover,
 #submitButton:active,
 #submitButton:hover,
+#submitData:active,
+#submitData:hover,
 #unfollowAllButton:active,
 #unfollowAllButton:hover,
 #unfollowCurrentButton:active,

@@ -37,6 +37,15 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 	<div id ="unfollowAll">
 		<br><button type="button" id="unfollowAllButton">Unfollow All</button><br>
 		<div id = "noteUnfollowAll">(This won't affect your Twitch account)</div>
-		</div>
+	</div>
+	<br>
+<table id="bottomButtonsTable">
+	<tr>
+		<td><button type="button" id="exportFollowingButton">Export Data</button></td>
+		<td><button type="button" id="importFollowingButton">Import Data</button></td>
+	</tr>
+</table>
+<div id="textBox"><textarea id="exportBox" type="text"></textarea></div>
+<div id="importDiv"><input type="text" id="importData" placeholder = "Paste the exported data here!"/><input type="submit" id="submitData" value="&#x2713;"/></div>
 </body>
 </html>
