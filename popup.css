@@ -44,11 +44,11 @@ h1 {
 	margin-right: auto;
 }
 
-#streamersTable img{
+#streamersTable img:not(#loading1){
 	width:30px;
 	height:30px;
 }
-#followingDiv img{
+#followingDiv img:not(#loading2){
 	width:15px;
 	height:15px;
 }
