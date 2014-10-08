@@ -6,8 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
-<table style="width:100%">
-	<tr align="center">
+<table id="topButtonsTable">
+	<tr>
 		<td><button type="button" id="unfollowCurrentButton"></button> <button type="button" id="followCurrentButton"></button></td>
 		<td><button type="button" id="syncTwitchButton" >Sync with Twitch</button></td>
 	</tr>
@@ -19,7 +19,7 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 <div id="streamersDiv">
 <div id="noStreams">There are no streams online :(</div>
 <div id="loadingStreams"><img src="loading.gif"/></div>
-	<table id="streamersTable" style="width:100%">
+	<table id="streamersTable">
 		<tr>
 			<th>Game</th>
 			<th>Streamer</th>
@@ -38,6 +38,5 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 		<br><button type="button" id="unfollowAllButton">Unfollow All</button><br>
 		<div id = "noteUnfollowAll">(This won't affect your Twitch account)</div>
 		</div>
-<div id="copyright">&#169; NowStreaming, 2014-2014. All rights reserved.</div>
 </body>
 </html>

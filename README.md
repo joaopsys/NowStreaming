@@ -13,6 +13,7 @@ Changelog
 - Some minor bug fixes
 - Added some error/help messages that were missing
 - Added option to Sync with Twitch
+- Added option to unfollow everyone
 
 0.3:
 - Badge text added to the icon, now it shows the number of online streamers
