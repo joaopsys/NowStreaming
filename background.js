@@ -147,7 +147,7 @@ function updateCore(is_first_run,callback) {
 	var json;
 	var xhr = new XMLHttpRequest();
 	var streamers = {};
-	var url = "https://api.twitch.tv/kraken/streams?channel=";
+	var url = "https://api.twitch.tv/kraken/streams?limit=100&channel=";
 	temp = "";
 
 	/*Load streamers*/
