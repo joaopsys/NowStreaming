@@ -86,14 +86,14 @@ chrome.runtime.onStartup.addListener(function() {
 });
 
 chrome.runtime.onUpdateAvailable.addListener(function (){
-	chrome.storage.sync.clear();
-	chrome.storage.local.clear();
+	//chrome.storage.sync.clear();
+	//chrome.storage.local.clear();
 	chrome.runtime.reload();
 });
 
 chrome.runtime.onInstalled.addListener(function () {
-	chrome.storage.local.clear();
-	chrome.storage.sync.clear();
+	//chrome.storage.local.clear();
+	//chrome.storage.sync.clear();
 	/* Get followers from sync, put them on local */
 	/*chrome.storage.sync.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
