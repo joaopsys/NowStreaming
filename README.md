@@ -7,6 +7,9 @@ Get instant notifications when your favorite streamers start streaming!
 Changelog
 ============
 
+0.5:
+- Minor bug fixes
+
 0.4:
 - Many core changes to how/what data is stored
 - Popup window got a facelift (added css, game, viewers, unfollow options)
