@@ -9,6 +9,7 @@ $(document).ready(function () {
 	//$("#followingDiv").hide();
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
+	$("#syncTwitchButton").bind("click", {user: "xazurik"},syncWithTwitch);
 
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
@@ -67,17 +68,42 @@ $(document).ready(function () {
 	});
 });
 
+function syncWithTwitch(event){
+	var url = "https://api.twitch.tv/kraken/users/"+event.data.user+"/follows/channels";
+	var streamers = {};
+	var xhr = new XMLHttpRequest();
+	/*Load streamers*/
+	chrome.storage.local.get({streamers:{}}, function (result) {
+		var json;
+		streamers = result.streamers;
+		console.log(streamers);
+		xhr.open('get', url,true);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200){
+				json = JSON.parse(xhr.responseText);
+				for (var i=0;i<json.follows.length;i++){
+					streamers[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null"};
+				}
+				chrome.storage.local.set({'streamers': streamers}, function () {
+					onForceUpdate();
+				});
+			}
+		}
+		xhr.send();
+	});
+}
+
 function imageExists(url)
 {
     if(url){
-				try{
-	        var req = new XMLHttpRequest();
-	        req.open('GET', url, false);
-	        req.send();
-	        return req.status==200;
-				} catch(e){
-					return 0;
-				}
+		try{
+		    var req = new XMLHttpRequest();
+		    req.open('GET', url, false);
+		    req.send();
+		    return req.status==200;
+		} catch(e){
+			return 0;
+		}
     } else {
         return false;
     }
@@ -85,7 +111,7 @@ function imageExists(url)
 
 function onForceUpdate(){
 	chrome.runtime.getBackgroundPage(function(backgroundPage) {
-		backgroundPage.updateCore(1,function(){location.reload()});
+		backgroundPage.updateCore(1,function(){location.reload();});
 		//location.reload();
 	});
 }
