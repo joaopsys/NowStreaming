@@ -92,7 +92,7 @@ function showTwitchForm(){
 
 function syncWithTwitch(){
 	var user = document.getElementById("twitchuser").value;
-	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels";
+	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit=100";
 	var streamers = {};
 	var xhr = new XMLHttpRequest();
 	/*Load streamers*/
@@ -120,9 +120,6 @@ function exportFollowing(){
 		$("#textBox").show();
 		var streamers = result.streamers;
 		$("#exportBox").val(JSON.stringify(streamers));
-		/*url = 'data:text/json;charset=utf8,' + encodeURIComponent(streamers["sodapoppin"]);
-		window.open(url, '_blank');
-		window.focus();*/
 	});
 }
 
@@ -137,7 +134,6 @@ function importData(){
 		chrome.storage.local.set({'streamers': streamers}, function () {
 			chrome.runtime.getBackgroundPage(function(backgroundPage) {
 				backgroundPage.updateCore(1,function(){location.reload();});
-				//location.reload();
 			});
 		});
 	}catch(e){
