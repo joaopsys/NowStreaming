@@ -3,7 +3,7 @@ chrome.alarms.create({periodInMinutes: 1});
 
 function addToStorage(channel, remove, callback){
 	var streamers;
-	chrome.storage.sync.get({streamers:{}}, function (result) {
+	/*chrome.storage.sync.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		console.log("vem da sync");
 		console.log(streamers);
@@ -14,10 +14,9 @@ function addToStorage(channel, remove, callback){
 			streamers[channel] = {flag:1};
 		console.log("vou meter");
 		console.log(streamers);
-		/* Follow or unfollow? Update both sync and local */
 		chrome.storage.sync.set({'streamers': streamers}, function () {
 		});
-	});
+	});*/
 
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
@@ -60,9 +59,20 @@ function isEmpty(map) {
 }
 
 chrome.runtime.onStartup.addListener(function() {
-	chrome.storage.local.clear();
+	//chrome.storage.local.clear();
 	/* Get followers from sync, put them on local */
-	chrome.storage.sync.get({streamers:{}}, function (result) {
+	/*chrome.storage.sync.get({streamers:{}}, function (result) {
+		streamers = result.streamers;
+		for (var key in streamers){
+			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
+		}
+		//console.log(streamers);
+		chrome.storage.local.set({'streamers': streamers}, function () {
+			//console.log("Meti isto ^ no local ");
+			updateCore(1,function(){});
+		});
+	});*/
+	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
 			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
@@ -77,14 +87,26 @@ chrome.runtime.onStartup.addListener(function() {
 
 chrome.runtime.onUpdateAvailable.addListener(function (){
 	chrome.storage.sync.clear();
+	chrome.storage.local.clear();
 	chrome.runtime.reload();
 });
 
 chrome.runtime.onInstalled.addListener(function () {
-	chrome.storage.local.clear();
+	//chrome.storage.local.clear();
 	//chrome.storage.sync.clear();
 	/* Get followers from sync, put them on local */
-	chrome.storage.sync.get({streamers:{}}, function (result) {
+	/*chrome.storage.sync.get({streamers:{}}, function (result) {
+		streamers = result.streamers;
+		for (var key in streamers){
+			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
+		}
+		//console.log(streamers);
+		chrome.storage.local.set({'streamers': streamers}, function () {
+			//console.log("Meti isto ^ no local ");
+			updateCore(1,function(){});
+		});
+	});*/
+	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
 			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
