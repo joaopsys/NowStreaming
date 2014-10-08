@@ -6,11 +6,14 @@
 	<link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
-<button type="button" id="unfollowCurrentButton"></button>
-<button type="button" id="followCurrentButton"></button>
-<button type="button" id="syncTwitchButton">Sync w/ Twitch</button>
+<table style="width:100%">
+	<tr align="center">
+		<td><button type="button" id="unfollowCurrentButton"></button> <button type="button" id="followCurrentButton"></button></td>
+		<td><button type="button" id="syncTwitchButton" >Sync with Twitch</button></td>
+	</tr>
+</table>
 <div id="inputTwitchUser">
-Twitch username: <input type="text" id="twitchuser"/> <button type="button" id="submitButton">Lel</button>
+Twitch username: <input type="text" size="10" id="twitchuser"/><input type="submit" id="submitButton" value="&#x2713;"/>
 </div>
 <h1>Now Streaming: <!--<a id="forceUpdate" href="#"><img src="icon.png" width="19" height="19"/></a>--></h1>
 <div id="streamersDiv">
@@ -28,12 +31,13 @@ Twitch username: <input type="text" id="twitchuser"/> <button type="button" id="
 <!--<div id="manageFollowing"><a id="manageLink" href="#">Manage Streamers</a></div>-->
 <h1>Following: </h1>
 <div id="followingDiv">
-	<div id="noFollowing">You're not following any streamer.<br><br>To start following someone, go to their Twitch channel and click the NowStreaming icon!</div>
+	<div id="noFollowing">You're not following any streamer.<br><br>To start following someone, either go to their Twitch channel and click the NowStreaming icon or synchronize NowStreaming with Twitch by clicking the purple button above!</div>
 	<div id="loadingFollowing"><img src="loading.gif"/></div>
 	</div>
 	<div id ="unfollowAll">
-		<button type="button" id="unfollowAllButton">Unfollow All</button><br>
-		<font size="1%" >(This won't affect your Twitch account)</font>
+		<br><button type="button" id="unfollowAllButton">Unfollow All</button><br>
+		<div id = "noteUnfollowAll">(This won't affect your Twitch account)</div>
 		</div>
+<div id="copyright">&#169; NowStreaming, 2014-2014. All rights reserved.</div>
 </body>
 </html>

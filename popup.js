@@ -7,6 +7,7 @@ $(document).ready(function () {
 	$("#loadingFollowing").show();
 	$("#loadingStreams").show();
 	$("#inputTwitchUser").hide();
+	$("#unfollowAll").show();
 	//$("#followingDiv").hide();
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
@@ -28,7 +29,7 @@ $(document).ready(function () {
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTable").show();
-				$("#streamersTable").append("<tr id=\"row"+key+"\" align=\"center\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"19\" height=\"19\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
+				$("#streamersTable").append("<tr id=\"row"+key+"\" align=\"center\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"30\" height=\"30\"/></td><td><a href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
 			}
 		}
 		$("#loadingFollowing").hide();
@@ -36,6 +37,7 @@ $(document).ready(function () {
 
 		if (nfollowing <= 0){
 			$("#noFollowing").show();
+			$("#unfollowAll").hide();
 		}
 
 		if (nstreams <= 0){
@@ -45,7 +47,7 @@ $(document).ready(function () {
 		chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
 			tabUrl = arrayOfTabs[0].url;
 
-			if (tabUrl.indexOf("twitch.tv/") != -1){
+			if (tabUrl.indexOf("www.twitch.tv/") != -1){
 				var parts = tabUrl.split('/');
 				var name = parts[3];
 
@@ -69,6 +71,14 @@ $(document).ready(function () {
 		});
 
 	});
+});
+
+$(window).keydown(function(event){
+    if(event.keyCode == 13 && !$("#inputTwitchUser").is(':hidden')) {
+      event.preventDefault();
+      syncWithTwitch();
+      return false;
+    }
 });
 
 function showTwitchForm(){
