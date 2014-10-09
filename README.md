@@ -12,6 +12,7 @@ Changelog
 - Added export/import local data. You can now keep your favorite streamers even if you format your hard drive :)
 - Major bug fix for users following tons of people on twitch
 - Online streams limit raised to 100
+- Added options - you can now choose what the Sync button does and opt to not get notifications.
 
 
 0.4:

@@ -2,56 +2,19 @@
 <html>
 <head>
 	<script src="jquery-2.1.1.min.js"></script>
-	<script src="popup.js"></script>
-	<link rel="stylesheet" type="text/css" href="popup.css">
+	<script src="options.js"></script>
+	<link rel="stylesheet" type="text/css" href="options.css">
 </head>
 <body>
-<table id="topButtonsTable">
-	<tr>
-		<td><button type="button" id="unfollowCurrentButton" title="Unfollow this user on NowStreaming"></button> <button type="button" id="followCurrentButton" title="Follow this user on NowStreaming"></button></td>
-		<td><button type="button" id="syncTwitchButton" title="This will import the streamers you follow on Twitch to NowStreaming" >Sync with Twitch</button></td>
-	</tr>
-</table>
-<div id="inputTwitchUser">
-Twitch username: <input type="text" size="10" id="twitchuser"/><input type="submit" id="submitButton" title="Sync!" value="&#x2713;"/>
+<h1 title="Options">NowStreaming options:</h1>
+<div id="optionsDiv">
+	<input type="checkbox" id="notifications" class="checkbox"> Get Notifications
+	<br><br>
+	The 'Sync with Twitch' button will either:
+	<ul>
+		<li><input type="radio" name="syncoption" id="checkadd"> <b><u>Add</u></b> your Twitch list of streamers to NowStreaming.</li>
+		<li><input type="radio" name="syncoption" id="checkreplace"> <b><u>Replace</u></b> your NowStreaming list with your Twitch list.</li>
+	</ul>
 </div>
-<h1 title="Streams currently online">Now Streaming: <!--<a id="forceUpdate" href="#"><img src="icon.png" width="19" height="19"/></a>--></h1>
-<div id="streamersDiv">
-<div id="noStreams">There are no streams online :(</div>
-<div id="loadingStreams"><img id="loading1" src="loading.gif"/></div>
-	<table id="streamersTable">
-		<tr>
-			<th>Game</th>
-			<th>Streamer</th>
-			<th>Viewers</th>
-		</tr>
-	</table>
-</div>
-<br><hr width=\"300\">
-<!--<div id="manageFollowing"><a id="manageLink" href="#">Manage Streamers</a></div>-->
-<h1 title="Streamers that you're following">Following: </h1>
-<div id="followingDiv">
-	<div id="noFollowing">You're not following any streamer.<br><br>To start using NowStreaming, you have 3 options: 
-		<ul>
-			<li>Click the <b>NowStreaming icon</b> while you're in a Twitch channel.</li><br>
-			<li>Synchronize your Twitch followers with NowStreaming, by clicking the <b>'Sync with Twitch'</b> button.</li><br>
-			<li>Import your streamers, if you have exported them previously by clicking the <b>'Import Data'</b> button.</li>
-		</ul>
-	</div>
-	<div id="loadingFollowing"><img id="loading2" src="loading.gif"/></div>
-	</div>
-	<div id ="unfollowAll">
-		<br><button type="button" id="unfollowAllButton" title="This will unfollow every user you follow on NowStreaming.">Unfollow All</button><br>
-		<div id = "noteUnfollowAll">(This won't affect your Twitch account)</div>
-	</div>
-	<br>
-<table id="bottomButtonsTable">
-	<tr>
-		<td><button type="button" id="exportFollowingButton" title="This will export the list of streamers you follow so that you can import it later.">Export Data</button></td>
-		<td><button type="button" id="importFollowingButton" title="This will import a list of streamers, exported via the 'Export Data' button.">Import Data</button></td>
-	</tr>
-</table>
-<div id="textBox">Make sure you copy everything or it won't work.<br><br><textarea id="exportBox" type="text"></textarea></div>
-<div id="importDiv"><input type="text" id="importData" placeholder = "Paste the exported data here!"/><input type="submit" id="submitData" title="Submit Data" value="&#x2713;"/></div>
 </body>
 </html>

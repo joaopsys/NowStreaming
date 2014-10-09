@@ -18,7 +18,7 @@ function addToStorage(channel, remove, callback){
 		});
 	});*/
 
-	chrome.storage.local.get({streamers:{}}, function (result) {
+	chrome.storage.local.get({streamers:{}, 'notifications':true}, function (result) {
 		streamers = result.streamers;
 		if (remove){
 			delete streamers[channel];
@@ -43,8 +43,13 @@ function addToStorage(channel, remove, callback){
 				  iconUrl: "check.png"
 				}
 			}
-			chrome.notifications.clear(remove==1?"un":"" + "follow"+channel, function(wasCleared) {});
-			chrome.notifications.create(remove==1?"un":"" + "follow"+channel, opt, function(id) {updateCore(0,function(){callback();}); });
+			if(result.notifications){
+				chrome.notifications.clear(remove==1?"un":"" + "follow"+channel, function(wasCleared) {});
+				chrome.notifications.create(remove==1?"un":"" + "follow"+channel, opt, function(id) {updateCore(0,function(){callback();}); });
+			}
+			else{
+				updateCore(0,function(){callback();});
+			}
 		});
 	});
 }
@@ -106,6 +111,7 @@ chrome.runtime.onInstalled.addListener(function () {
 			updateCore(1,function(){});
 		});
 	});*/
+    chrome.storage.local.set({'notifications': true, 'add':true}, function () {});
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
@@ -151,7 +157,7 @@ function updateCore(is_first_run,callback) {
 	temp = "";
 
 	/*Load streamers*/
-	chrome.storage.local.get({streamers:{}}, function (result) {
+	chrome.storage.local.get({streamers:{},'notifications':true}, function (result) {
 		streamers = result.streamers;
 		//console.log(streamers);
 
@@ -193,8 +199,10 @@ function updateCore(is_first_run,callback) {
 							  iconUrl: json.streams[i].channel.logo!=null?json.streams[i].channel.logo:"icon.png",
 							  isClickable: true
 							}
-							chrome.notifications.clear(tmpname+"-"+tmpurl, function(wasCleared) {});
-							chrome.notifications.create(tmpname+"-"+tmpurl, opt, function(id){});
+							if(result.notifications){
+								chrome.notifications.clear(tmpname+"-"+tmpurl, function(wasCleared) {});
+								chrome.notifications.create(tmpname+"-"+tmpurl, opt, function(id){});
+							}
 
 							/* Notification sent, update values on storage */
 							streamers[json.streams[i].channel.name].flag = 1;
@@ -222,8 +230,10 @@ function updateCore(is_first_run,callback) {
 								  iconUrl: "icon.png",
 								  isClickable: true
 								}
-								chrome.notifications.clear(onlineStreams+"-nstreaming", function(wasCleared) {});
-								chrome.notifications.create(onlineStreams+"-nstreaming", opt, function(id){});
+								if (result.notifications){
+									chrome.notifications.clear(onlineStreams+"-nstreaming", function(wasCleared) {});
+									chrome.notifications.create(onlineStreams+"-nstreaming", opt, function(id){});
+								}
 							}
 						}
 						chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#CC0000":onlineStreams==1?"#FF7519":"#00CC00")});

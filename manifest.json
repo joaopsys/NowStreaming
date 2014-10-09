@@ -2,6 +2,7 @@
 	"manifest_version": 2,
 
 	"name": "NowStreaming Test",
+	"options_page": "options.html",
 	"description": "Get instant notifications when your favorite streamers start streaming!",
 	"version": "0.5",
 	"author": "Jota",
