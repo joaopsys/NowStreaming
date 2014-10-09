@@ -31,7 +31,7 @@ $(document).ready(function () {
 		var nstreams=0;
 		for (var key in streamers){
 			nfollowing++;
-			$("#followingDiv").append("<div id=\""+key+"\">"+key+"<a id=\"unfollow-"+key+"\" href=\"#\"><img src=\"cross.png\"/></a></div><br>");
+			$("#followingDiv").append("<div id=\""+key+"\">"+key+"<a id=\"unfollow-"+key+"\" href=\"#\"><img title=\"Unfollow "+key+"\" src=\"cross.png\"/></a></div><br>");
 			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1,nfollowing:nfollowing,nstreams:nstreams},followCurrent);
 			if (streamers[key].flag){
 				nstreams++;
