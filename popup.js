@@ -14,7 +14,9 @@ $(document).ready(function () {
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
 	$("#syncTwitchButton").bind("click", showTwitchForm);
-	$("#submitButton").bind("click", syncWithTwitch);
+	$("#submitButton").bind("click", function(){
+		syncWithTwitch(50,0,0,null);
+	});
 	$("#unfollowAllButton").bind("click", unfollowAll);
 	$("#exportFollowingButton").bind("click", exportFollowing);
 	$("#importFollowingButton").bind("click",importFollowing);
@@ -81,7 +83,7 @@ $(document).ready(function () {
 $(window).keydown(function(event){
     if(event.keyCode == 13 && !$("#inputTwitchUser").is(':hidden')) {
       event.preventDefault();
-      syncWithTwitch();
+      syncWithTwitch(50,0,0,null);
       return false;
     }
 });
@@ -90,29 +92,37 @@ function showTwitchForm(){
 	$("#inputTwitchUser").show();
 }
 
-function syncWithTwitch(){
+function syncWithTwitch(limit, offset, done, following){
 	var user = document.getElementById("twitchuser").value;
-	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit=100";
-	var streamers = {};
-	var xhr = new XMLHttpRequest();
-	/*Load streamers*/
-	chrome.storage.local.get({streamers:{}}, function (result) {
+	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
+	if (following == null){
+		chrome.storage.local.get({streamers:{}}, function (result) {
+			var streamers_temp = result.streamers;
+			syncWithTwitch(limit,offset,done,streamers_temp);
+		});
+	}
+	else{
 		var json;
-		streamers = result.streamers;
+		var xhr = new XMLHttpRequest();
 		xhr.open('get', url,true);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200){
 				json = JSON.parse(xhr.responseText);
 				for (var i=0;i<json.follows.length;i++){
-					streamers[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null"};
+					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null"};
 				}
-				chrome.storage.local.set({'streamers': streamers}, function () {
-					onForceUpdate();
-				});
+				if (json.follows.length+done >= json._total){
+					chrome.storage.local.set({'streamers': following}, function () {
+						onForceUpdate();
+					});
+				}
+				else{
+					syncWithTwitch(limit, offset+limit,json.follows.length+done,following);
+				}
 			}
 		}
 		xhr.send();
-	});
+	}
 }
 
 function exportFollowing(){
