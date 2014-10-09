@@ -15,7 +15,11 @@ $(document).ready(function () {
 	//$("#forceUpdate").bind("click", onForceUpdate);
 	$("#syncTwitchButton").bind("click", showTwitchForm);
 	$("#submitButton").bind("click", function(){
-		syncWithTwitch(50,0,0,null);
+		chrome.storage.local.get({
+			add: true
+		}, function(items) {
+			syncWithTwitch(50,0,0,null,items.add);
+		});
 	});
 	$("#unfollowAllButton").bind("click", unfollowAll);
 	$("#exportFollowingButton").bind("click", exportFollowing);
@@ -83,7 +87,11 @@ $(document).ready(function () {
 $(window).keydown(function(event){
     if(event.keyCode == 13 && !$("#inputTwitchUser").is(':hidden')) {
       event.preventDefault();
-      syncWithTwitch(50,0,0,null);
+		chrome.storage.local.get({
+			add: true
+		}, function(items) {
+			syncWithTwitch(50,0,0,null,items.add);
+		});
       return false;
     }
 });
@@ -92,16 +100,18 @@ function showTwitchForm(){
 	$("#inputTwitchUser").show();
 }
 
-function syncWithTwitch(limit, offset, done, following){
+function syncWithTwitch(limit, offset, done, following, add){
 	var user = document.getElementById("twitchuser").value;
 	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
-	if (following == null){
+	if (following == null && add){
 		chrome.storage.local.get({streamers:{}}, function (result) {
 			var streamers_temp = result.streamers;
 			syncWithTwitch(limit,offset,done,streamers_temp);
 		});
 	}
 	else{
+		if (following == null)
+			following={};
 		var json;
 		var xhr = new XMLHttpRequest();
 		xhr.open('get', url,true);
@@ -117,7 +127,7 @@ function syncWithTwitch(limit, offset, done, following){
 					});
 				}
 				else{
-					syncWithTwitch(limit, offset+limit,json.follows.length+done,following);
+					syncWithTwitch(limit, offset+limit,json.follows.length+done,following,add);
 				}
 			}
 		}
