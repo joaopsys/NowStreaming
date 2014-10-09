@@ -10,7 +10,8 @@ Changelog
 0.5:
 - Minor bug fixes
 - Added export/import local data. You can now keep your favorite streamers even if you format your hard drive :)
-- Hotfix for users following tons of people on twitch
+- Major bug fix for users following tons of people on twitch
+- Online streams limit raised to 100
 
 
 0.4:
