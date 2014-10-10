@@ -111,14 +111,13 @@ chrome.runtime.onInstalled.addListener(function () {
 			updateCore(1,function(){});
 		});
 	});*/
-    chrome.storage.local.set({'notifications': true, 'add':true}, function () {});
-	chrome.storage.local.get({streamers:{}}, function (result) {
+	chrome.storage.local.get({streamers:{},'notifications':true,'add':true}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
 			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
 		}
 		//console.log(streamers);
-		chrome.storage.local.set({'streamers': streamers}, function () {
+		chrome.storage.local.set({'streamers': streamers,'notifications':result.notifications,'add':result.add}, function () {
 			//console.log("Meti isto ^ no local ");
 			updateCore(1,function(){});
 		});
@@ -154,7 +153,7 @@ function updateCore(is_first_run,callback) {
 	var xhr = new XMLHttpRequest();
 	var streamers = {};
 	var url = "https://api.twitch.tv/kraken/streams?limit=100&channel=";
-	temp = "";
+	temp = [];
 
 	/*Load streamers*/
 	chrome.storage.local.get({streamers:{},'notifications':true}, function (result) {
@@ -183,7 +182,7 @@ function updateCore(is_first_run,callback) {
 					//console.log("Length: "+json.streams.length+" e "+json._total);
 					for (i=0;i<json.streams.length;i++){
 						/* We will need this temp so we can check which streamers are NOT streaming in the end */
-						temp = temp.concat(json.streams[i].channel.name);
+						temp.push(json.streams[i].channel.name);
 						onlineStreams++;
 						/* If stream is up and notification has not been sent, then send it */
 						if (streamers[json.streams[i].channel.name].flag == 0){
