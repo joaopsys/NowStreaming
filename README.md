@@ -1,7 +1,7 @@
 NowStreaming
 ============
 
-Get instant notifications when your favorite streamers start streaming!
+Get instant notifications when your favorite streamers start streaming, and much more!
 
 
 Changelog
