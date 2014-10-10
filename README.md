@@ -7,7 +7,7 @@ Get instant notifications when your favorite streamers start streaming, and much
 Changelog
 ============
 0.6:
-- 
+- Version number added to the popup
 
 0.5:
 - Minor bug fixes

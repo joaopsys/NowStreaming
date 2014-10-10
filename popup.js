@@ -26,6 +26,8 @@ $(document).ready(function () {
 	$("#importFollowingButton").bind("click",importFollowing);
 	$("#submitData").bind("click", importData);
 
+	$("#versionDiv").append(chrome.app.getDetails().version);
+
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		var defaulticon = "icon";
