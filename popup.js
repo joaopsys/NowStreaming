@@ -168,20 +168,14 @@ function unfollowAll(){
 	onForceUpdate();
 }
 
-function imageExists(url)
-{
-    if(url){
-		try{
-		    var req = new XMLHttpRequest();
-		    req.open('GET', url, false);
-		    req.send();
-		    return req.status==200;
-		} catch(e){
-			return 0;
-		}
-    } else {
-        return false;
-    }
+function imageExists(url) {	
+	var response = jQuery.ajax({
+		url: url,
+		type: 'HEAD',
+		async: false
+	}).status;	
+	
+	return (response != "200") ? false : true;
 }
 
 function onForceUpdate(){

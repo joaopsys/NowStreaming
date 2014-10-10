@@ -8,6 +8,7 @@ Changelog
 ============
 0.6:
 - Version number added to the popup
+- Some improvements to icon loading
 
 0.5:
 - Minor bug fixes
