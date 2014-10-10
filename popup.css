@@ -64,6 +64,16 @@ h1 {
 tr{
 	text-align:center;
 }
+#versionDiv{
+  font-family: "Lucida Grande", Tahoma;
+  font-size: 8px;
+  font-weight: lighter;
+  font-variant: normal;
+  text-transform: uppercase;
+  color: #666666;
+  text-align: right!important;
+  letter-spacing: 0.1em;
+}
 #textBox,
 #noteUnfollowAll{
 	font-size: 8px;
