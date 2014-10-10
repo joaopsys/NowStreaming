@@ -162,7 +162,7 @@ function importData(){
 }
 
 function unfollowAll(){
-	chrome.storage.local.clear();
+	chrome.storage.local.set({'streamers': {}}, function () {});
 	onForceUpdate();
 }
 
