@@ -12,7 +12,7 @@ h1 {
 	color: #222;
 }
 /*#manageFollowing a,*/
-#streamersDiv a { 
+.streamerpage { 
 	color: #c64119; border-bottom: 1px solid #c64119; text-decoration: none;
 }
 /*#manageFollowing a,*/
@@ -39,7 +39,7 @@ h1 {
 #importData{
   width:200px;
 }
-#followingDiv a{
+.unfollowstreamer{
 	float:right;
 }
 #bottomButtonsTable,
