@@ -9,6 +9,10 @@ Changelog
 0.6:
 - Version number added to the popup
 - Some improvements to icon loading
+- Minor bug fixes
+- Improved help messages
+- You can now go to the streamer's twitch channel even if they're not streaming
+- Improved follow functions
 
 0.5:
 - Minor bug fixes
