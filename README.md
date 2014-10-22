@@ -13,6 +13,9 @@ Changelog
 - Improved help messages
 - You can now go to the streamer's twitch channel even if they're not streaming
 - Improved follow functions
+- Fixed notifications being sent more than once for the same stream
+- More game icons :D
+- Added hidden easter egg
 
 0.5:
 - Minor bug fixes

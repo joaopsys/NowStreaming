@@ -105,6 +105,8 @@ function showTwitchForm(){
 
 function syncWithTwitch(limit, offset, done, following, add){
 	var user = document.getElementById("twitchuser").value;
+	if (user == "mlg360noscope420blazeit")
+		window.open("http://youtu.be/kHYZDveT46c");
 	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
 	if (following == null && add){
 		chrome.storage.local.get({streamers:{}}, function (result) {
@@ -122,7 +124,7 @@ function syncWithTwitch(limit, offset, done, following, add){
 			if (xhr.readyState == 4 && xhr.status == 200){
 				json = JSON.parse(xhr.responseText);
 				for (var i=0;i<json.follows.length;i++){
-					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null"};
+					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null"};
 				}
 				if (json.follows.length+done >= json._total){
 					chrome.storage.local.set({'streamers': following}, function () {
