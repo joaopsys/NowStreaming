@@ -24,7 +24,7 @@ function addToStorage(channel, remove, callback){
 			delete streamers[channel];
 		}
 		else
-			streamers[channel] = {flag:0,url:"null",game:"null",viewers:-1};
+			streamers[channel] = {flag:0,url:"null",game:"null",viewers:-1,created_at:"null"};
 		chrome.storage.local.set({'streamers': streamers}, function () {
 			var opt;
 			if (remove){
@@ -80,7 +80,7 @@ chrome.runtime.onStartup.addListener(function() {
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
-			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
+			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null"};
 		}
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers}, function () {
@@ -114,7 +114,7 @@ chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.local.get({streamers:{},'notifications':true,'add':true}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
-			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null"};
+			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null"};
 		}
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers,'notifications':result.notifications,'add':result.add}, function () {
@@ -185,7 +185,7 @@ function updateCore(is_first_run,callback) {
 						temp.push(json.streams[i].channel.name);
 						onlineStreams++;
 						/* If stream is up and notification has not been sent, then send it */
-						if (streamers[json.streams[i].channel.name].flag == 0){
+						if (result.notifications && streamers[json.streams[i].channel.name].flag == 0 && (streamers[json.streams[i].channel.name].created_at != json.streams[i].created_at)){
 							//console.log("A mandar not do "+json.streams[i].channel.name);
 							tmpname = json.streams[i].channel.name;
 							tmpurl = json.streams[i].channel.url;
@@ -198,17 +198,14 @@ function updateCore(is_first_run,callback) {
 							  iconUrl: json.streams[i].channel.logo!=null?json.streams[i].channel.logo:"icon.png",
 							  isClickable: true
 							}
-							if(result.notifications){
-								chrome.notifications.clear(tmpname+"-"+tmpurl, function(wasCleared) {});
-								chrome.notifications.create(tmpname+"-"+tmpurl, opt, function(id){});
-							}
-
-							/* Notification sent, update values on storage */
-							streamers[json.streams[i].channel.name].flag = 1;
+							chrome.notifications.clear(tmpname+"-"+tmpurl, function(wasCleared) {});
+							chrome.notifications.create(tmpname+"-"+tmpurl, opt, function(id){});
 						}
 						streamers[json.streams[i].channel.name].game = json.streams[i].game!=null?json.streams[i].game:"N/A";
 						streamers[json.streams[i].channel.name].viewers = json.streams[i].viewers;
 						streamers[json.streams[i].channel.name].url = json.streams[i].channel.url;
+						streamers[json.streams[i].channel.name].created_at = json.streams[i].created_at;
+						streamers[json.streams[i].channel.name].flag = 1;
 					}
 
 					/* Check which ones were not streaming so we reset values */
