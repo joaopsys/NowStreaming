@@ -8,7 +8,7 @@ Changelog
 ============
 0.6:
 - Version number added to the popup
-- New Logo (temporary)!
+- New Logo!
 - Some improvements to icon loading
 - Minor bug fixes
 - Improved help messages
