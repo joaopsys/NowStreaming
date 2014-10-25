@@ -23,12 +23,19 @@ footer{
 }
 /*#manageFollowing a,*/
 #streamersDiv a { 
-	color: #993213; border-bottom: 1px solid #993213; 
+	color: #993213; border-bottom: 1px solid #993213;
+  float:left;
+  margin-left: 50px;
+  margin-right:auto;
+}
+.viewersclass{
+  float:left;
+  margin-left:10px;
+  margin-right:auto; 
 }
 #unfollowAll,
 #inputTwitchUser,
 #importDiv,
-#manageFollowing,
 #followingDiv,
 #textBox,
 #streamersDiv{
@@ -39,21 +46,25 @@ footer{
 	text-transform: uppercase;
 	color: #666666;
 	margin-top: 10px;
-	text-align: center!important;
 	letter-spacing: 0.3em;
+}
+#unfollowAll,
+#inputTwitchUser,
+#importDiv,
+#textBox,
+#streamersDiv{
+  text-align: center!important;
 }
 #importData{
   width:200px;
 }
 .unfollowstreamer{
-	float:right;
+  float:right;
 }
 #bottomButtonsTable,
 #streamersTable,
 #topButtonsTable{
 	width:100%;
-	margin-left: auto;
-	margin-right: auto;
 }
 #exportBox{
     height:200px;
