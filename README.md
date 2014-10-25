@@ -8,6 +8,7 @@ Changelog
 ============
 0.6:
 - Version number added to the popup
+- New Logo (temporary)!
 - Some improvements to icon loading
 - Minor bug fixes
 - Improved help messages
@@ -16,6 +17,7 @@ Changelog
 - Fixed notifications being sent more than once for the same stream
 - More game icons :D
 - Added hidden easter egg
+- Stream title now shows when you mouse hover an online streamer
 
 0.5:
 - Minor bug fixes
