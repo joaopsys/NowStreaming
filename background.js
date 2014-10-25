@@ -24,7 +24,7 @@ function addToStorage(channel, remove, callback){
 			delete streamers[channel];
 		}
 		else
-			streamers[channel] = {flag:0,url:"null",game:"null",viewers:-1,created_at:"null"};
+			streamers[channel] = {flag:0,url:"null",game:"null",viewers:-1,created_at:"null",title:"null"};
 		chrome.storage.local.set({'streamers': streamers}, function () {
 			var opt;
 			if (remove){
@@ -80,7 +80,7 @@ chrome.runtime.onStartup.addListener(function() {
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
-			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null"};
+			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null"};
 		}
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers}, function () {
@@ -114,7 +114,7 @@ chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.local.get({streamers:{},'notifications':true,'add':true}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
-			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null"};
+			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null"};
 		}
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers,'notifications':result.notifications,'add':result.add}, function () {
@@ -203,6 +203,7 @@ function updateCore(is_first_run,callback) {
 						}
 						streamers[json.streams[i].channel.name].game = json.streams[i].game!=null?json.streams[i].game:"N/A";
 						streamers[json.streams[i].channel.name].viewers = json.streams[i].viewers;
+						streamers[json.streams[i].channel.name].title = json.streams[i].channel.status;
 						streamers[json.streams[i].channel.name].url = json.streams[i].channel.url;
 						streamers[json.streams[i].channel.name].created_at = json.streams[i].created_at;
 						streamers[json.streams[i].channel.name].flag = 1;
@@ -223,8 +224,7 @@ function updateCore(is_first_run,callback) {
 								  title: "NowStreaming",
 								  message: "There "+(onlineStreams==1?"is":"are")+" currently "+onlineStreams+(onlineStreams==1?" streamer":" streamers")+" online.",
 								  contextMessage: "Click here for more details.",
-								  iconUrl: "icon.png",
-								  isClickable: true
+								  iconUrl: "icon.png"
 								}
 								if (result.notifications){
 									chrome.notifications.clear(onlineStreams+"-nstreaming", function(wasCleared) {});

@@ -43,9 +43,35 @@ $(document).ready(function () {
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTable").show();
-				$("#streamersTable").append("<tr id=\"row"+key+"\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"30\" height=\"30\"/></td><td><a class=\"streamerpage\" href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
+				$("#streamersTable").append("<tr id=\"row"+key+"\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" width=\"30\" height=\"30\"/></td><td><a title=\""+streamers[key].title+"\" class=\"streamerpage masterTooltip\" href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td>"+streamers[key].viewers+"<td></tr>");
 			}
 		}
+
+
+		$(".masterTooltip").bind("mouseenter", function(e){
+			var title = $(this).attr('title');
+			$(this).data('tipText', title).removeAttr('title');
+			$('<p class="tooltip"></p>')
+			.text(title)
+			.appendTo('body')
+			.fadeIn('slow');
+			var mousex = e.pageX - 20; //Get X coordinates
+			var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
+		    $('.tooltip')
+		    .css({ top: mousey, left: mousex })
+		});
+		$(".masterTooltip").bind("mouseleave", function(e){
+			$(this).attr('title', $(this).data('tipText'));
+			$('.tooltip').remove();
+		});
+		$(".masterTooltip").bind("mousemove", function(e){
+		    var mousex = e.pageX - 20; //Get X coordinates
+		    var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
+		    $('.tooltip')
+		    .css({ top: mousey, left: mousex })
+		});
+
+
 		$("#loadingFollowing").hide();
 		$("#loadingStreams").hide();
 
@@ -124,7 +150,7 @@ function syncWithTwitch(limit, offset, done, following, add){
 			if (xhr.readyState == 4 && xhr.status == 200){
 				json = JSON.parse(xhr.responseText);
 				for (var i=0;i<json.follows.length;i++){
-					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null"};
+					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null"};
 				}
 				if (json.follows.length+done >= json._total){
 					chrome.storage.local.set({'streamers': following}, function () {

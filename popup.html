@@ -18,7 +18,7 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 </div>
 <h1 title="Streams currently online">Now Streaming: <!--<a id="forceUpdate" href="#"><img src="icon.png" width="19" height="19"/></a>--></h1>
 <div id="streamersDiv">
-<div id="noStreams">There are <b>no streams online</b> or your <b>internet connection is unstable</b></div>
+<div id="noStreams">There are <b>no streams online</b></b></div>
 <div id="loadingStreams"><img id="loading1" src="loading.gif"/></div>
 	<table id="streamersTable">
 		<tr>
@@ -34,8 +34,8 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 <div id="followingDiv">
 	<div id="noFollowing">You're not following any streamer.<br><br>To start using NowStreaming, you have 3 options: 
 		<ul>
-			<li>Click the <b>NowStreaming icon</b> while you're in a Twitch channel.</li><br>
-			<li>Synchronize your Twitch followers with NowStreaming, by clicking the <b>'Sync with Twitch'</b> button.</li><br>
+			<li>While watching a Twitch stream, click the <b>NowStreaming icon</b> and start following that channel.</li><br>
+			<li>Synchronize the streamers you follow on Twitch with NowStreaming, by clicking the <b>'Sync with Twitch'</b> button.</li><br>
 			<li>Import your streamers if you have exported them previously, by clicking the <b>'Import Data'</b> button.</li>
 		</ul>
 	</div>
@@ -43,7 +43,7 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 	</div>
 	<div id ="unfollowAll">
 		<br><button type="button" id="unfollowAllButton" title="This will unfollow every user you follow on NowStreaming.">Unfollow All</button><br>
-		<div id = "noteUnfollowAll">(This won't affect your Twitch account)</div>
+		<div id = "noteUnfollowAll"><b>(This won't affect your Twitch account!)</b></div>
 	</div>
 	<br>
 <table id="bottomButtonsTable">
@@ -55,4 +55,5 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 <div id="textBox">Make sure you copy everything or it won't work.<br><br><textarea id="exportBox" type="text"></textarea></div>
 <div id="importDiv"><input type="text" id="importData" placeholder = "Paste the exported data here!"/><input type="submit" id="submitData" title="Submit Data" value="&#x2713;"/></div>
 </body>
+<footer>All game icons (if applicable) belong to their respective companies/owners.</footer>
 </html>
