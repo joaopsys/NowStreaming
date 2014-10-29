@@ -52,6 +52,7 @@ footer{
 #inputTwitchUser,
 #importDiv,
 #textBox,
+#loadingFollowing,
 #streamersDiv{
   text-align: center!important;
 }
