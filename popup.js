@@ -101,7 +101,7 @@ $(document).ready(function () {
 
 function popoutStream(e){
 	var url = $(this).next().attr('href');
-	window.open(url+"/popout", "NowStreaming", "height=600,width=850");
+	window.open(url+"/popout", url, "height=600,width=850");
 }
 
 function showTooltip(e){
