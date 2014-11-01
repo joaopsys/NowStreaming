@@ -49,11 +49,14 @@ input[type="text"].focus {
 	color: #c64119; border-bottom: 1px solid #c64119; text-decoration: none;
 }
 /*#manageFollowing a,*/
-#streamersDiv a { 
+#streamersDiv a:not(.popout) {
 	color: #993213; border-bottom: 1px solid #993213;
   float:left;
   margin-left: 50px;
   margin-right:auto;
+}
+.popout{
+  float:right;
 }
 .viewersclass{
   float:left;
@@ -99,7 +102,7 @@ input[type="text"].focus {
     height:200px;
     width:300px;
 }
-#streamersTable img:not(#loading1){
+#streamersTable img:not(#loading1):not(.popout img){
 	width:30px;
 	height:30px;
 }

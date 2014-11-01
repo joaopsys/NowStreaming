@@ -35,6 +35,7 @@ Changelog
 (Public Release) 0.7:
 - Updated description
 - Added a Fast Follow option
+- Added a Stream Popout option
 - Added a donate button at the end of the popup window :)
 - Changed the submit buttons
 - 'Sync with Twitch' renamed to 'Import from Twitch'
