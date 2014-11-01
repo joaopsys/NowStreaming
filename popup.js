@@ -45,7 +45,7 @@ $(document).ready(function () {
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTable").show();
-				$("#streamersTable").append("<tr id=\"row"+key+"\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><a title=\""+streamers[key].title+"\" class=\"streamerpage masterTooltip\" href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span><td></tr>");
+				$("#streamersTable").append("<tr id=\"row"+key+"\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><a class=\"popout\" href=\"#\"><img class=\"masterTooltip\" title=\"Popout this stream\" src=\"popout.png\"/></a><a title=\""+streamers[key].title+"\" class=\"streamerpage masterTooltip\" href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span><td></tr>");
 			}
 		}
 
@@ -54,6 +54,8 @@ $(document).ready(function () {
 
 		$(".masterTooltip").bind("mouseleave", hideTooltip);
 		$(".masterTooltip").bind("mousemove", updateTooltip);
+
+		$(".popout").bind("click",popoutStream);
 
 
 		$("#loadingFollowing").hide();
@@ -96,6 +98,11 @@ $(document).ready(function () {
 
 	});
 });
+
+function popoutStream(e){
+	var url = $(this).next().attr('href');
+	window.open(url+"/popout", "NowStreaming", "height=600,width=850");
+}
 
 function showTooltip(e){
 	var title = $(this).attr('title');
