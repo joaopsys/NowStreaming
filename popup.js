@@ -25,6 +25,7 @@ $(document).ready(function () {
 	$("#exportFollowingButton").bind("click", exportFollowing);
 	$("#importFollowingButton").bind("click",importFollowing);
 	$("#submitData").bind("click", importData);
+	$("#submitFastFollow").bind("click", fastFollow);
 
 	$("#versionDiv").append(chrome.app.getDetails().version);
 
@@ -39,7 +40,7 @@ $(document).ready(function () {
 		for (var key in streamers){
 			nfollowing++;
 			$("#followingDiv").append("<div id=\""+key+"\"><a class=\"streamerpage\" href=\""+(streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a><a class=\"unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"><img title=\"Unfollow "+key+"\" src=\"cross.png\"/></a></div><br>");
-			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1,nfollowing:nfollowing,nstreams:nstreams},followCurrent);
+			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1},followCurrent);
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTable").show();
@@ -48,28 +49,10 @@ $(document).ready(function () {
 		}
 
 
-		$(".masterTooltip").bind("mouseenter", function(e){
-			var title = $(this).attr('title');
-			$(this).data('tipText', title).removeAttr('title');
-			$('<p class="tooltip"></p>')
-			.text(title)
-			.appendTo('body')
-			.fadeIn('slow');
-			var mousex = e.pageX - 20; //Get X coordinates
-			var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
-		    $('.tooltip')
-		    .css({ top: mousey, left: mousex })
-		});
-		$(".masterTooltip").bind("mouseleave", function(e){
-			$(this).attr('title', $(this).data('tipText'));
-			$('.tooltip').remove();
-		});
-		$(".masterTooltip").bind("mousemove", function(e){
-		    var mousex = e.pageX - 20; //Get X coordinates
-		    var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
-		    $('.tooltip')
-		    .css({ top: mousey, left: mousex })
-		});
+		$(".masterTooltip").bind("mouseenter", showTooltip);
+
+		$(".masterTooltip").bind("mouseleave", hideTooltip);
+		$(".masterTooltip").bind("mousemove", updateTooltip);
 
 
 		$("#loadingFollowing").hide();
@@ -97,13 +80,13 @@ $(document).ready(function () {
 							remove = 1;
 							$("#unfollowCurrentButton").show();
 							$("#unfollowCurrentButton").html("Unfollow "+name);
-							$("#unfollowCurrentButton").bind("click", {name: name, remove: remove, nfollowing:nfollowing, nstreams:nstreams},followCurrent);
+							$("#unfollowCurrentButton").bind("click", {name: name, remove: remove},followCurrent);
 						}
 						else{
 							remove=0;
 							$("#followCurrentButton").show();
 							$("#followCurrentButton").html("Follow "+name);
-							$("#followCurrentButton").bind("click", {name: name, remove: remove, nfollowing:nfollowing, nstreams:nstreams},followCurrent);
+							$("#followCurrentButton").bind("click", {name: name, remove: remove},followCurrent);
 						}
 						//addToStorage(name);
 					}
@@ -113,24 +96,69 @@ $(document).ready(function () {
 	});
 });
 
+function showTooltip(e){
+	var title = $(this).attr('title');
+	$(this).data('tipText', title).removeAttr('title');
+	$('<p class="tooltip"></p>')
+	.text(title)
+	.appendTo('body')
+	.fadeIn('slow');
+	var mousex = e.pageX - 20; //Get X coordinates
+	var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
+	$('.tooltip')
+	.css({ top: mousey, left: mousex })
+}
+
+function hideTooltip(e){
+	$(this).attr('title', $(this).data('tipText'));
+	$('.tooltip').remove();
+}
+
+function updateTooltip(e){
+	var mousex = e.pageX - 20; //Get X coordinates
+	var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
+	$('.tooltip')
+	.css({ top: mousey, left: mousex })
+}
+
+
 $(window).keydown(function(event){
-    if(event.keyCode == 13 && !$("#inputTwitchUser").is(':hidden')) {
-      event.preventDefault();
-		chrome.storage.local.get({
-			add: true
-		}, function(items) {
-			syncWithTwitch(50,0,0,null,items.add);
-		});
-      return false;
-    }
+	if(event.keyCode == 13){
+		event.preventDefault();
+
+		if($("#fastFollowInput").is(":focus")){
+			fastFollow();
+		}
+		else if($("#syncWithTwitchInput").is(":focus")){
+			chrome.storage.local.get({
+				add: true
+			}, function(items) {
+				syncWithTwitch(50,0,0,null,items.add);
+			});
+		}
+		else if($("#importDataInput").is(":focus")){
+			importData();
+		}
+		return false;
+	}
 });
+
+function fastFollow(){
+	var user = document.getElementById("fastFollowInput").value;
+	if (isAStreamer(user)){
+		directFollow(user,0);
+	}
+	else{
+		alert("desconheço");
+	}
+}
 
 function showTwitchForm(){
 	$("#inputTwitchUser").show();
 }
 
 function syncWithTwitch(limit, offset, done, following, add){
-	var user = document.getElementById("twitchuser").value;
+	var user = document.getElementById("syncWithTwitchInput").value;
 	if (user == "mlg360noscope420blazeit")
 		window.open("http://youtu.be/kHYZDveT46c");
 	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
@@ -179,7 +207,7 @@ function importFollowing(){
 }
 
 function importData(){
-	var data = document.getElementById("importData").value;
+	var data = document.getElementById("importDataInput").value;
 	try{
 		var streamers = JSON.parse(data);
 		chrome.storage.local.set({'streamers': streamers}, function () {
@@ -215,36 +243,13 @@ function onForceUpdate(){
 }
 
 function followCurrent(event){
+	directFollow(event.data.name,event.data.remove);
+}
+
+function directFollow(user,remove){
 	chrome.runtime.getBackgroundPage(function(backgroundPage) {
-		backgroundPage.addToStorage(event.data.name,event.data.remove,function(){
+		backgroundPage.addToStorage(user,remove,function(){
 			location.reload();
-			//Tentativa fail de runtime reload
-			/*if (event.data.remove){
-				alert(event.data.nfollowing);
-				$("#unfollowCurrentButton").hide();
-				$("#followCurrentButton").show();
-				$("#followCurrentButton").html("Follow "+event.data.name);
-				$("#followCurrentButton").bind("click", {name: event.data.name, remove: 0, nfollowing:event.data.nfollowing-1, nstreams:event.data.nstreams-1},followCurrent);
-				$("#"+event.data.name).fadeOut( "slow",function(){$("#"+event.data.name).remove();});
-				$("#row"+event.data.name).fadeOut( "slow",function(){$("#row"+event.data.name).remove();});
-				if (event.data.nfollowing-1 == 0){
-					$("#noFollowing").show();
-				}
-				if (event.data.nstreams-1 == 0){
-					$("#noStreams").show();
-					$("#streamersTable").hide();
-				}
-			}
-			else{
-				$("#followCurrentButton").hide();
-				$("#unfollowCurrentButton").show();
-				$("#unfollowCurrentButton").html("Unfollow "+event.data.name);
-				$("#unfollowCurrentButton").bind("click", {name: event.data.name, remove: 1, nfollowing:event.data.nfollowing, nstreams:event.data.nstreams},followCurrent);
-				$("#noFollowing").hide();
-				$("#followingDiv").append("<div id=\""+event.data.name+"\">"+event.data.name+"<span style=\"float:right;\"><a id=\"unfollow-"+event.data.name+"\" href=\"#\"><img src=\"cross.png\" width=\"15\" height=\"15\"/></a></span></div><br>");
-				$("#unfollow-"+event.data.name+"").bind("click", {name: event.data.name, remove: 1,nfollowing:event.data.nfollowing,nstreams:event.data.nstreams},followCurrent);
-				$("#"+event.data.name).fadeIn( "slow",null);
-			}*/
 		});
 	});
 }
