@@ -10,6 +10,7 @@ $(document).ready(function () {
 	$("#unfollowAll").show();
 	$("#textBox").hide();
 	$("#importDiv").hide();
+	$("#fastFollowMessage").hide();
 	//$("#followingDiv").hide();
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
@@ -147,9 +148,13 @@ function fastFollow(){
 	var user = document.getElementById("fastFollowInput").value;
 	if (isAStreamer(user)){
 		directFollow(user,0);
+		$("#fastFollowMessage").html("You followed "+user);
 	}
 	else{
-		alert("desconheço");
+		$("#fastFollowMessage").html("Cannot find "+user);
+		$("#fastFollowMessage").css("font-weight","bold");
+		$("#fastFollowMessage").css("color","red");
+		$("#fastFollowMessage").show();
 	}
 }
 
