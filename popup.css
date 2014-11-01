@@ -65,6 +65,7 @@ input[type="text"].focus {
 #importDiv,
 #followingDiv,
 #textBox,
+#fastFollowMessage,
 #streamersDiv{
 	font-family: "Lucida Grande", Tahoma;
 	font-size: 10px;
