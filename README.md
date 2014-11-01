@@ -38,6 +38,8 @@ Changelog
 - Added a donate button at the end of the popup window :)
 - Changed the submit buttons
 - 'Sync with Twitch' renamed to 'Import from Twitch'
+- Updated some messages and tips
+- Fixed a bug where some notifications would be sent after importing data
 
 (Open Beta) 0.6:
 - Version number added to the popup

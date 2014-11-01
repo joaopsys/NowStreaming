@@ -140,7 +140,7 @@ function updateCore(is_first_run,callback) {
 						temp.push(json.streams[i].channel.name);
 						onlineStreams++;
 						/* If stream is up and notification has not been sent, then send it */
-						if (result.notifications && streamers[json.streams[i].channel.name].flag == 0 && (streamers[json.streams[i].channel.name].created_at != json.streams[i].created_at)){
+						if (result.notifications && !is_first_run && streamers[json.streams[i].channel.name].flag == 0 && (streamers[json.streams[i].channel.name].created_at != json.streams[i].created_at)){
 							//console.log("A mandar not do "+json.streams[i].channel.name);
 							tmpname = json.streams[i].channel.name;
 							tmpurl = json.streams[i].channel.url;
