@@ -6,12 +6,17 @@
 	<link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
-<div id="fastFollow">
-	<input id ="fastFollowInput" class="inputclass" type="text" placeholder="Fast Follow - Insert Twitch username and press enter" size="10"/> <input type="button" id="submitFastFollow" value="&#10140;"/>
-	<div id="fastFollowMessage"></div>
-</div>
-<div id="versionDiv">V. </div>
-<br>
+<table id="fastFollowTable">
+	<tr>
+		<td>
+			<div id="fastFollow">
+				<input id ="fastFollowInput" class="inputclass" type="text" placeholder="Fast Follow - Insert Twitch username and press enter" size="10"/> <input type="button" id="submitFastFollow" value="&#10140;"/>
+			</div>
+		</td>
+		<td><div id="versionDiv">V. </div></td>
+	</tr>
+</table>
+<div id="fastFollowMessage"></div>
 <table id="topButtonsTable">
 	<tr>
 		<td><button type="button" id="unfollowCurrentButton" title="Unfollow this user on NowStreaming"></button> <button type="button" id="followCurrentButton" title="Follow this user on NowStreaming"></button></td>
