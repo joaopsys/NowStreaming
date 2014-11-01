@@ -148,7 +148,6 @@ function fastFollow(){
 	var user = document.getElementById("fastFollowInput").value;
 	if (isAStreamer(user)){
 		directFollow(user,0);
-		$("#fastFollowMessage").html("You followed "+user);
 	}
 	else{
 		$("#fastFollowMessage").html("Cannot find "+user);

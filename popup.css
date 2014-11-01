@@ -120,6 +120,9 @@ tr{
   text-align: right!important;
   letter-spacing: 0.1em;
 }
+#fastFollowTable{
+  width:100%;
+}
 #fastFollow{
   float:left;
 }
