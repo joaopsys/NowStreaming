@@ -6,20 +6,24 @@
 	<link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
+<div id="fastFollow">
+	<input id ="fastFollowInput" class="inputclass" type="text" placeholder="Fast Follow - Insert Twitch username and press enter" size="10"/> <input type="button" id="submitFastFollow" value="&#10140;"/>
+</div>
 <div id="versionDiv">V. </div>
+<br>
 <table id="topButtonsTable">
 	<tr>
 		<td><button type="button" id="unfollowCurrentButton" title="Unfollow this user on NowStreaming"></button> <button type="button" id="followCurrentButton" title="Follow this user on NowStreaming"></button></td>
-		<td><button type="button" id="syncTwitchButton" title="This will import the streamers you follow on Twitch to NowStreaming" >Sync with Twitch</button></td>
+		<td><button type="button" id="syncTwitchButton" title="This will import the streamers you follow on Twitch to NowStreaming" >Import from Twitch</button></td>
 	</tr>
 </table>
 <div id="inputTwitchUser">
-Twitch username: <input type="text" size="10" id="twitchuser"/><input type="submit" id="submitButton" title="Sync!" value="&#x2713;"/>
+	<input id= "syncWithTwitchInput" class="inputclass" type="text" placeholder="Insert Twitch username and press enter" size="10"/> <input type="button" id="submitButton" value="&#10140;"/>
 </div>
 <h1 title="Streams currently online">Now Streaming: <!--<a id="forceUpdate" href="#"><img src="icon.png" width="19" height="19"/></a>--></h1>
 <div id="streamersDiv">
-<div id="noStreams">There are <b>no streams online</b></b></div>
-<div id="loadingStreams"><img id="loading1" src="loading.gif"/></div>
+	<div id="noStreams">There are <b>no streams online</b></b></div>
+	<div id="loadingStreams"><img id="loading1" src="loading.gif"/></div>
 	<table id="streamersTable">
 		<tr>
 			<th>Game</th>
@@ -32,11 +36,11 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 <!--<div id="manageFollowing"><a id="manageLink" href="#">Manage Streamers</a></div>-->
 <h1 title="Streamers that you're following">Following: </h1>
 <div id="followingDiv">
-	<div id="noFollowing">You're not following any streamer.<br><br>To start using NowStreaming, you have 3 options: 
+	<div id="noFollowing">You're not following any streamer.<br><br>To start using NowStreaming, you can: 
 		<ul>
-			<li>While watching a Twitch stream, click the <b>NowStreaming icon</b> and start following that channel.</li><br>
-			<li>Synchronize the streamers you follow on Twitch with NowStreaming, by clicking the <b>'Sync with Twitch'</b> button.</li><br>
-			<li>Import your streamers if you have exported them previously, by clicking the <b>'Import Data'</b> button.</li>
+			<li>Click the <b>NowStreaming icon</b> while watching a Twitch stream.</li><br>
+			<li>Click the <b>Import from Twitch</b> button to import your Twitch following list.</li><br>
+			<li>Click the <b>Import Data</b> button to directly import data, if you have exported it previously.</li>
 		</ul>
 	</div>
 	<div id="loadingFollowing"><img id="loading2" src="loading.gif"/></div>
@@ -53,7 +57,11 @@ Twitch username: <input type="text" size="10" id="twitchuser"/><input type="subm
 	</tr>
 </table>
 <div id="textBox">Make sure you copy everything or it won't work.<br><br><textarea id="exportBox" type="text"></textarea></div>
-<div id="importDiv"><input type="text" id="importData" placeholder = "Paste the exported data here!"/><input type="submit" id="submitData" title="Submit Data" value="&#x2713;"/></div>
+<div id="importDiv"><input id="importDataInput" class="inputclass" type="text" placeholder = "Paste the exported data here!"/> <input type="submit" id="submitData" title="Submit Data" value="&#10140;"/></div>
 </body>
-<footer>All game icons (if applicable) belong to their respective companies/owners.</footer>
+<footer>
+	All game icons (if applicable) belong to their respective companies/owners.
+	<br>
+	If you like this extension and want to support me, feel free to <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WRPYHKBMYZAWA">Donate!</a> I'll be very grateful :)
+</footer>
 </html>

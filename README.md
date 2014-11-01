@@ -1,7 +1,7 @@
 NowStreaming
 ============
 
-Get instant notifications when your favorite streamers start streaming, and much more!
+Manage your favorite streamers, get instant notifications when they come online, and much more!
 
 NowStreaming is an extension that will greatly improve the way you manage your favorite Twitch streams.
 
@@ -18,8 +18,8 @@ First Steps:
 If you don't want to receive notifications, you can always disable them by right clicking the NowStreaming icon and clicking Options.
 
 Advanced Steps:
-- You can synchronize the streamers you're following on Twitch, with NowStreaming!
-- Hit the Sync with Twitch Button
+- You can import your Twitch following list to Now Streaming!
+- Hit the Import from Twitch Button
 - Enter your Twitch username
 - Submit
 
@@ -27,10 +27,17 @@ Anything you do on NowStreaming *WILL NOT* affect your Twitch account.
 
 Feel free to comment about things you like/don't like, I'll give it a look.
 
+If you like this extension and want to support me, you can Donate through PayPal, I'll be very grateful:
+https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WRPYHKBMYZAWA
 
 Changelog
 ============
 (Public Release) 0.7:
+- Updated description
+- Added a Fast Follow option
+- Added a donate button at the end of the popup window :)
+- Changed the submit buttons
+- 'Sync with Twitch' renamed to 'Import from Twitch'
 
 (Open Beta) 0.6:
 - Version number added to the popup

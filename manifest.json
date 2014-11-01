@@ -3,7 +3,7 @@
 
 	"name": "NowStreaming Test",
 	"options_page": "options.html",
-	"description": "Get instant notifications when your favorite streamers start streaming, and much more!",
+	"description": "Manage your favorite streamers, get instant notifications when they come online, and much more!",
 	"version": "0.7",
 	"author": "Jota",
 

@@ -1,5 +1,5 @@
 body {
-    background-color: #F9F9F9;
+    background-color: #F8F8F8;
     height:200px;
     width:400px;
 }
@@ -16,6 +16,33 @@ footer{
   font-size: smaller;
   clear: both;
   text-align: center;
+}
+input[type="text"] {
+  font-family: "Lucida Grande", Tahoma;
+  font-size: 8px;
+  font-weight: lighter;
+  font-variant: normal;
+  text-transform: uppercase;
+  color: #666666;
+  letter-spacing: 0.1em;
+
+  width: 300px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+}
+input[type="text"]:focus {
+  outline: none;
+}
+input[type="text"] {
+  padding: 4px;
+  border: solid 1px #dcdcdc;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+input[type="text"]:focus,
+input[type="text"].focus {
+  border: solid 1px #707070;
+  box-shadow: 0 0 5px 1px #969696;
 }
 /*#manageFollowing a,*/
 .streamerpage { 
@@ -92,6 +119,9 @@ tr{
   text-align: right!important;
   letter-spacing: 0.1em;
 }
+#fastFollow{
+  float:left;
+}
 #textBox,
 #noteUnfollowAll{
 	font-size: 8px;
@@ -133,20 +163,6 @@ tr{
   padding: 0 1em; 
   text-decoration: none;
   background: linear-gradient(#333333,#161616);
-  text-shadow: 1px 1px 1px #57B245; 
-}
-#submitData,
-#submitButton{
-  background: #CCC; 
-  color: #FFF;
-  display: inline-block;
-  border-radius: 100px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1.75em;
-  padding: 0 0.5em; 
-  text-decoration: none;
-  background: linear-gradient(#6BDB55,#57B245);
   text-shadow: 1px 1px 1px #57B245; 
 }
 #followCurrentButton {
@@ -192,10 +208,6 @@ tr{
 #importFollowingButton:hover,
 #exportFollowingButton:active,
 #exportFollowingButton:hover,
-#submitButton:active,
-#submitButton:hover,
-#submitData:active,
-#submitData:hover,
 #unfollowAllButton:active,
 #unfollowAllButton:hover,
 #unfollowCurrentButton:active,
@@ -206,6 +218,41 @@ tr{
 #syncTwitchButton:hover { 
   box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 
   inset 0 1.5em 1em rgba(255,255,255,0.3);
+}
+#submitFastFollow,
+#submitButton,
+#submitData{
+  background: #ECECEC;
+  border-radius: 100px;
+  line-height: 1.2em;
+  padding: 0 0.5em; 
+  display: inline-block;
+  font-family: arial;
+  font-weight: bold;
+  color:#7f7f7f;
+  text-decoration: none;
+  text-shadow:0px 1px 0px #fff;
+  border:1px solid #a7a7a7;
+  margin:0px auto;
+  box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  -webkit-transition:box-shadow 0.5s;
+}
+#submitFastFollow i,
+#submitData i,
+#submitButton i{
+  float: right;
+  margin-top: 2px;
+}
+#submitFastFollow:hover,
+#submitButton:hover,
+#submitData:hover{
+  box-shadow: 0px 2px 1px white inset, 0px -2px 20px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+}
+#submitFastFollow:active,
+#submitData:active,
+#submitButton:active{
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset, 0px -2px 20px white, 0px 1px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px rgba(0, 0, 0, 0.1);
+  background:-webkit-linear-gradient(top, #d1d1d1 0%,#ECECEC 100%);
 }
 .tooltip {
   display:none;
