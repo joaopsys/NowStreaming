@@ -32,6 +32,9 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WRPYHKBMYZA
 
 Changelog
 ============
+0.8:
+- Brand new and more polished logo.
+
 (Public Release) 0.7:
 - Updated description
 - Added a Fast Follow option
