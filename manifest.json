@@ -4,7 +4,7 @@
 	"name": "NowStreaming Test",
 	"options_page": "options.html",
 	"description": "Manage your favorite streamers, get instant notifications when they come online, and much more!",
-	"version": "0.7",
+	"version": "0.8",
 	"author": "Jota",
 
 	"background": {
