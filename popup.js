@@ -153,6 +153,7 @@ $(window).keydown(function(event){
 
 function fastFollow(){
 	var user = document.getElementById("fastFollowInput").value;
+	user = user.toLowerCase();
 	if (isAStreamer(user)){
 		directFollow(user,0);
 	}
