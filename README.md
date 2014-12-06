@@ -30,10 +30,15 @@ Feel free to comment about things you like/don't like, I'll give it a look.
 If you like this extension and want to support me, you can Donate through PayPal, I'll be very grateful:
 https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WRPYHKBMYZAWA
 
+Logo designed by Igor Carraco: 
+https://www.behance.net/igorcarraco
+
 Changelog
 ============
-0.8:
-- Brand new and more polished logo.
+(Public Release) 0.8:
+- Brand new and more polished logo (Thank you Igor! https://www.behance.net/igorcarraco)
+- Major bug fix (Thank you JN)
+- More game icons
 
 (Public Release) 0.7:
 - Updated description
