@@ -157,10 +157,10 @@ function updateCore(is_first_run,callback) {
 							chrome.notifications.create(tmpname+"-"+tmpurl, opt, function(id){});
 						}
 						streamers[json.streams[i].channel.name].game = json.streams[i].game!=null?json.streams[i].game:"N/A";
-						streamers[json.streams[i].channel.name].viewers = json.streams[i].viewers;
-						streamers[json.streams[i].channel.name].title = json.streams[i].channel.status;
-						streamers[json.streams[i].channel.name].url = json.streams[i].channel.url;
-						streamers[json.streams[i].channel.name].created_at = json.streams[i].created_at;
+						streamers[json.streams[i].channel.name].viewers = json.streams[i].viewers!=null?json.streams[i].viewers:"?";
+						streamers[json.streams[i].channel.name].title = json.streams[i].channel.status!=null?json.streams[i].channel.status:"?";
+						streamers[json.streams[i].channel.name].url = json.streams[i].channel.url!=null?json.streams[i].channel.url:"https://twitch.tv/"+json.streams[i].channel.name;
+						streamers[json.streams[i].channel.name].created_at = json.streams[i].created_at!=null?json.streams[i].created_at:"?";
 						streamers[json.streams[i].channel.name].flag = 1;
 					}
 
@@ -172,7 +172,7 @@ function updateCore(is_first_run,callback) {
 						}
 					}
 					chrome.storage.local.set({'streamers': streamers}, function () {
-						if (is_first_run){
+						/*if (is_first_run){
 							if (onlineStreams > 0){
 								var opt = {
 								  type: "basic",
@@ -186,8 +186,8 @@ function updateCore(is_first_run,callback) {
 									chrome.notifications.create(onlineStreams+"-nstreaming", opt, function(id){});
 								}
 							}
-						}
-						chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#CC0000":onlineStreams==1?"#FF7519":"#00CC00")});
+						}*/
+						chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#B80000":"#009933")});
 						chrome.browserAction.setBadgeText({"text": ""+onlineStreams});
 					callback();
 					});

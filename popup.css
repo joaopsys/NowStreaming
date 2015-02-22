@@ -1,15 +1,12 @@
-body {
-    background-color: #F8F8F8;
-    height:200px;
-    width:400px;
+@font-face {
+    font-family: 'NS-Thead';
+    src: url('ADAM.CG PRO.otf');
 }
-h1 {
-	font: 30px 'LeagueGothicRegular';
-	margin-top: 5px; margin-bottom: 0px;
-	text-align: center;
-	font-weight: normal;
-	text-shadow: 0px 1px 1px #4d4d4d;
-	color: #222;
+body {
+  font-family: "Amaranth";
+    background-color: #F8F8F8;
+    height:170px;
+    width:400px;
 }
 footer{
   color: gray;
@@ -18,7 +15,6 @@ footer{
   text-align: center;
 }
 input[type="text"] {
-  font-family: "Lucida Grande", Tahoma;
   font-size: 8px;
   font-weight: lighter;
   font-variant: normal;
@@ -26,7 +22,8 @@ input[type="text"] {
   color: #666666;
   letter-spacing: 0.1em;
 
-  width: 300px;
+  width: 253px;
+  text-align: center;
   appearance: none;
   box-shadow: none;
   border-radius: none;
@@ -44,222 +41,164 @@ input[type="text"].focus {
   border: solid 1px #707070;
   box-shadow: 0 0 5px 1px #969696;
 }
-/*#manageFollowing a,*/
-.streamerpage { 
-	color: #c64119; border-bottom: 1px solid #c64119; text-decoration: none;
+textarea[type="text"]:focus {
+  outline: none;
 }
-/*#manageFollowing a,*/
-#streamersDiv a:not(.popout) {
-	color: #993213; border-bottom: 1px solid #993213;
-  float:left;
-  margin-left: 50px;
-  margin-right:auto;
+textarea[type="text"] {
+  padding: 4px;
+  border: solid 1px #dcdcdc;
+  transition: box-shadow 0.3s, border 0.3s;
 }
-.popout{
-  float:right;
+textarea[type="text"]:focus,
+textarea[type="text"].focus {
+  border: solid 1px #707070;
+  box-shadow: 0 0 5px 1px #969696;
 }
-.viewersclass{
-  float:left;
-  margin-left:10px;
-  margin-right:auto; 
-}
-#unfollowAll,
-#inputTwitchUser,
-#importDiv,
-#followingDiv,
-#textBox,
-#fastFollowMessage,
-#streamersDiv{
-	font-family: "Lucida Grande", Tahoma;
-	font-size: 10px;
-	font-weight: lighter;
-	font-variant: normal;
-	text-transform: uppercase;
-	color: #666666;
-	margin-top: 10px;
-	letter-spacing: 0.3em;
-}
-#unfollowAll,
-#inputTwitchUser,
-#importDiv,
-#textBox,
-#loadingFollowing,
-#streamersDiv{
+#loadingStreams,
+#loadingFollowing{
   text-align: center!important;
 }
-#importData{
-  width:200px;
+#followAndOptionsTable{
+  width:100%;
 }
-.unfollowstreamer{
-  float:right;
+#noStreams{
+  text-align: center!important;
 }
-#bottomButtonsTable,
-#streamersTable,
-#topButtonsTable{
-	width:100%;
+#followCurrentButton,
+#unfollowCurrentButton{
+  float:left;
+  text-decoration: none;
+  color:#555;
+}
+#unfollowCurrentButton:hover{
+  color: #CC2929; 
+}
+#followCurrentButton:hover{
+  color: #29CC29; 
+}
+.currentMessageOptions,
+.currentMessage{
+  font-family: "Amaranth";
+  font-size: 15px;
+}
+#toggleoptionsdiv{
+  text-align: center!important;
+}
+#toggleOptions{
+  text-decoration: none;
+  color: #555;
+}
+#toggleOptions:hover{
+  color: #2a5db0;
+}
+#optionsDiv{
+  font-size: 13px;
+  color: #000;
+}
+.optionsTitle{
+  text-align: center!important;
+  font-family: "NS-Thead";
+  font-weight: bold;
+  font-size: 15px;
+}
+#importFollowingButton{
+  float: right;
+}
+#exportFollowingButton,
+#importFollowingButton{
+  float:left;
+  text-decoration: none;
+  color:#555;
+}
+#importDiv,
+#textBox{
+  text-align: center!important;
 }
 #exportBox{
     height:200px;
     width:300px;
 }
-#streamersTable img:not(#loading1):not(.popout img){
-	width:30px;
-	height:30px;
-}
-#followingDiv img:not(#loading2){
-	width:15px;
-	height:15px;
-}
-tr{
-	text-align:center;
-}
-#versionDiv{
-  font-family: "Lucida Grande", Tahoma;
-  font-size: 8px;
-  font-weight: lighter;
-  font-variant: normal;
-  text-transform: uppercase;
-  color: #666666;
-  text-align: right!important;
-  letter-spacing: 0.1em;
-}
-#fastFollowTable{
-  width:100%;
-}
-#fastFollow{
-  float:left;
-}
-#textBox,
-#noteUnfollowAll{
-	font-size: 8px;
-}
-#unfollowAllButton{
-  background: #CCC; 
-  color: #FFF;
-  display: inline-block;
-  border-radius: 1px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1em;
-  padding: 0 1em; 
+#syncTwitchButton{
   text-decoration: none;
-  background: linear-gradient(#D60A0A,#B20808);
-  text-shadow: 1px 1px 1px #57B245; 
+  color: #555;
 }
-#exportFollowingButton{
-  background: #CCC; 
-  color: #FFF;
-  display: inline-block;
-  border-radius: 1px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1em;
-  padding: 0 1em; 
-  text-decoration: none;
-  background: linear-gradient(#333333,#161616);
-  text-shadow: 1px 1px 1px #57B245; 
+#syncTwitchButton:hover{
+  color: #6441a5;
 }
-#importFollowingButton{
-  background: #CCC; 
-  color: #FFF;
-  display: inline-block;
-  border-radius: 1px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1em;
-  padding: 0 1em; 
-  text-decoration: none;
-  background: linear-gradient(#333333,#161616);
-  text-shadow: 1px 1px 1px #57B245; 
+#unfollowAllButton:hover{
+  color: #CC2929;
 }
-#followCurrentButton {
-  background: #CCC; 
-  color: #FFF;
-  border-radius: 4px;
-  display: inline-block;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1.75em;
-  padding: 0 1.5em; 
-  text-decoration: none;
-  background: linear-gradient(#6BDB55,#57B245);
-  text-shadow: 1px 1px 1px #57B245; 
-}
-#syncTwitchButton {
-  background: #CCC; 
-  color: #FFF;
-  display: inline-block;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1.75em;
-  padding: 0 1.5em; 
-  text-decoration: none;
-  background: linear-gradient(#794FA1,#6B24B2);
-  text-shadow: 1px 1px 1px #57B245;
-}
-#unfollowCurrentButton {
-  background: #CCC; 
-  color: #FFF;
-  border-radius: 4px;
-  display: inline-block;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  font-family: Arial, sans-serif;
-  line-height: 1.75em;
-  padding: 0 1.5em; 
-  text-decoration: none;
-  background: linear-gradient(#D60A0A,#B20808);
-  text-shadow: 1px 1px 1px #B20808; 
-}
-#importFollowingButton:active,
-#importFollowingButton:hover,
-#exportFollowingButton:active,
 #exportFollowingButton:hover,
-#unfollowAllButton:active,
-#unfollowAllButton:hover,
-#unfollowCurrentButton:active,
-#unfollowCurrentButton:hover,
-#followCurrentButton:active,
-#followCurrentButton:hover,
-#syncTwitchButton:active,
-#syncTwitchButton:hover { 
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), 
-  inset 0 1.5em 1em rgba(255,255,255,0.3);
+#importFollowingButton:hover{
+  color: #2a5db0; 
 }
-#submitFastFollow,
 #submitButton,
+#unfollowAllButton,
 #submitData{
-  background: #ECECEC;
-  border-radius: 100px;
-  line-height: 1.2em;
-  padding: 0 0.5em; 
-  display: inline-block;
-  font-family: arial;
-  font-weight: bold;
-  color:#7f7f7f;
   text-decoration: none;
-  text-shadow:0px 1px 0px #fff;
-  border:1px solid #a7a7a7;
-  margin:0px auto;
-  box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
-  -webkit-transition:box-shadow 0.5s;
+  color: #555;
 }
-#submitFastFollow i,
-#submitData i,
-#submitButton i{
-  float: right;
-  margin-top: 2px;
-}
-#submitFastFollow:hover,
 #submitButton:hover,
 #submitData:hover{
-  box-shadow: 0px 2px 1px white inset, 0px -2px 20px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+  color: #29CC29; 
 }
-#submitFastFollow:active,
-#submitData:active,
-#submitButton:active{
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset, 0px -2px 20px white, 0px 1px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px rgba(0, 0, 0, 0.1);
-  background:-webkit-linear-gradient(top, #d1d1d1 0%,#ECECEC 100%);
+.importFromTwitchMessage,
+.unfollowAllMessage,
+.exportImportMessage{
+  font-family: "Amaranth";
+  font-size: 15px;
+}
+#bottomButtonsTable,
+#streamersTable{
+  width:100%;
+}
+#fastFollow a{
+  text-decoration: none;
+}
+#submitFastFollow{
+  color: #555; 
+}
+#submitFastFollow:hover{
+  color: #29CC29;
+}
+#importTwitchFailMessage,
+#importDataFailMessage,
+#fastFollowMessage{
+  text-align: center;
+}
+#streamersTable img:not(#loading1):not(.popout img){
+  width:20px;
+  height:20px;
+}
+#streamersTable{
+  text-transform: capitalize;
+  color: #555;
+}
+#followingDiv thead,
+#streamersDiv thead{
+  font-family: "NS-Thead";
+}
+#streamersTable img:not(#loading1){
+  width:25px;
+  height:25px;
+}
+#thfirst{
+  text-align: left;
+}
+#streamersDiv a:not(.popout) {
+  color: #2a5db0;
+  float:left;
+}
+#streamersDiv a{
+  color: #555;
+  text-decoration: none;
+}
+tr{
+  text-align:center;
+}
+.viewersclass{
+  margin-right:27px;
+  float:right;
 }
 .tooltip {
   display:none;
@@ -270,4 +209,48 @@ tr{
   padding:10px;
   color:#fff;
   font-size:12px Arial;
+}
+#manageFollowingDiv{
+  float: right;
+}
+#manageFollowingButton{
+  text-decoration: none;
+  color: #555;
+}
+#manageFollowingButton:hover{
+  color: #2a5db0; 
+}
+.manageFollowingMessage{
+  font-family: "Amaranth";
+  font-size: 15px;
+  color: #2a5db0;
+}
+#followingDiv img:not(#loading2){
+  width:15px;
+  height:15px;
+}
+#followingTable{
+  width: 100%;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+#followingTable a:not(.unfollowstreamer){
+  color: #2a5db0;
+  float:left;
+}
+#followingTable a{
+  color: #CC2929;
+  text-decoration: none;
+}
+footer{
+  color: gray;
+  font-size: smaller;
+  clear: both;
+}
+#versionDiv{
+  font-family: "Tahoma";
+  font-size: 8px;
+  font-weight: lighter;
+  font-variant: normal;
+  float: right;
 }
