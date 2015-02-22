@@ -1,9 +1,11 @@
 $(document).ready(function () {
+	$("#optionsDiv").hide();
 	$("#followCurrentButton").hide();
 	$("#unfollowCurrentButton").hide();
 	$("#noFollowing").hide();
 	$("#noStreams").hide();
 	$("#streamersTable").hide();
+	$("#streamersTableDiv").hide();
 	$("#loadingFollowing").show();
 	$("#loadingStreams").show();
 	$("#inputTwitchUser").hide();
@@ -11,7 +13,36 @@ $(document).ready(function () {
 	$("#textBox").hide();
 	$("#importDiv").hide();
 	$("#fastFollowMessage").hide();
-	//$("#followingDiv").hide();
+	$(".importTwitchLoading").hide();
+	$("#importDataFailMessage").hide();
+	$("#importTwitchFailMessage").hide();
+	$(".currentMessage").hide();
+	$(".manageFollowingMessage").hide();
+	$("#manageFollowingButton").on({
+		mouseenter: function () {
+	        $(".manageFollowingMessage").show();
+	    },
+	    mouseleave: function () {
+	        $(".manageFollowingMessage").hide();
+		},
+		click: function(){
+			window.open("following.html");
+			return false;
+		}
+	});
+	$("#toggleOptions").on({
+		click: function(){
+			if ($("#optionsDiv").css('display') == 'none'){
+				$("#optionsDiv").show();
+				$(".currentMessageOptions").html(" Hide Options");
+			}
+			else{
+				$("#optionsDiv").hide();
+				$(".currentMessageOptions").html(" Show Options");
+			}
+		}
+	});
+	$("#followingTable").hide();
 
 	//$("#forceUpdate").bind("click", onForceUpdate);
 	$("#syncTwitchButton").bind("click", showTwitchForm);
@@ -38,16 +69,27 @@ $(document).ready(function () {
 		var defaultpage = "http://twitch.tv/";
 		var nfollowing=0;
 		var nstreams=0;
+		$("#streamersTable").append("<tbody>");
 		for (var key in streamers){
 			nfollowing++;
-			$("#followingDiv").append("<div id=\""+key+"\"><a class=\"streamerpage\" href=\""+(streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a><a class=\"unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"><img title=\"Unfollow "+key+"\" src=\"cross.png\"/></a></div><br>");
+			$("#followingTable").show();
+			if (nfollowing%2==0)
+				$("#followingTable").append("<tr id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:#29CC29\">Online</span></td>":"<td><span style=\"color:#CC2929\">Offline</span></td>")+"<td><a title=\"Unfollow "+key+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td></tr>");
+			else
+				$("#followingTable").append("<tr class=\"pure-table-odd\" id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:#29CC29\">Online</span></td>":"<td><span style=\"color:#CC2929\">Offline</span></td>")+"<td><a title=\"Unfollow "+key+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td></tr>");
 			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1},followCurrent);
 			if (streamers[key].flag){
 				nstreams++;
+				$("#streamersTableDiv").show();
 				$("#streamersTable").show();
-				$("#streamersTable").append("<tr id=\"row"+key+"\"><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><a class=\"popout\" href=\"#\"><img title=\"Popout this stream\" src=\"popout.png\"/></a><a title=\""+streamers[key].title+"\" class=\"streamerpage masterTooltip\" href=\""+streamers[key].url+"\" target=\"_blank\">"+key+"</a></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span><td></tr>");
+				if (nstreams % 2 == 0)
+					$("#streamersTable").append("<tr id=\"row"+key+"\"><td><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a></td></tr>");
+				else
+					$("#streamersTable").append("<tr class=\"pure-table-odd\" id=\"row"+key+"\"><td><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a></td></tr>");
+
 			}
 		}
+		$("#streamersTable").append("</tbody>");
 
 
 		$(".masterTooltip").bind("mouseenter", showTooltip);
@@ -64,10 +106,13 @@ $(document).ready(function () {
 		if (nfollowing <= 0){
 			$("#noFollowing").show();
 			$("#unfollowAll").hide();
+			$("#manageFollowingButton").hide();
 		}
 
 		if (nstreams <= 0){
 			$("#noStreams").show();
+			$("#streamersTableDiv").hide();
+			$("#streamersTable").hide();
 		}
 
 		chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
@@ -82,14 +127,30 @@ $(document).ready(function () {
 						if (streamers[name]){
 							remove = 1;
 							$("#unfollowCurrentButton").show();
-							$("#unfollowCurrentButton").html("Unfollow "+name);
+							$(".currentMessage").html(" Unfollow "+name);
 							$("#unfollowCurrentButton").bind("click", {name: name, remove: remove},followCurrent);
+							$("#unfollowCurrentButton").on({
+							    mouseenter: function () {
+							        $(".currentMessage").show();
+							    },
+							    mouseleave: function () {
+							        $(".currentMessage").hide();
+    							}
+							});
 						}
 						else{
 							remove=0;
 							$("#followCurrentButton").show();
-							$("#followCurrentButton").html("Follow "+name);
+							$(".currentMessage").html(" Follow "+name);
 							$("#followCurrentButton").bind("click", {name: name, remove: remove},followCurrent);
+							$("#followCurrentButton").on({
+							    mouseenter: function () {
+							        $(".currentMessage").show();
+							    },
+							    mouseleave: function () {
+							        $(".currentMessage").hide();
+    							}
+							});
 						}
 						//addToStorage(name);
 					}
@@ -100,8 +161,9 @@ $(document).ready(function () {
 });
 
 function popoutStream(e){
-	var url = $(this).next().attr('href');
+	var url = $(this).parent().prev().prev().prev().children().first().attr('href');
 	window.open(url+"/popout", url, "height=600,width=850");
+	return false;
 }
 
 function showTooltip(e){
@@ -124,7 +186,7 @@ function hideTooltip(e){
 
 function updateTooltip(e){
 	var mousex = e.pageX - 20; //Get X coordinates
-	var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
+	var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates\
 	$('.tooltip')
 	.css({ top: mousey, left: mousex })
 }
@@ -158,7 +220,7 @@ function fastFollow(){
 		directFollow(user,0);
 	}
 	else{
-		$("#fastFollowMessage").html("Cannot find "+user);
+		$("#fastFollowMessage").html("<br>Cannot find "+user);
 		$("#fastFollowMessage").css("font-weight","bold");
 		$("#fastFollowMessage").css("color","red");
 		$("#fastFollowMessage").show();
@@ -173,6 +235,13 @@ function syncWithTwitch(limit, offset, done, following, add){
 	var user = document.getElementById("syncWithTwitchInput").value;
 	if (user == "mlg360noscope420blazeit")
 		window.open("http://youtu.be/kHYZDveT46c");
+	if (!isAStreamer(user)){
+		$("#importTwitchFailMessage").html("<br>Invalid Twitch username!");
+		$("#importTwitchFailMessage").css("font-weight","bold");
+		$("#importTwitchFailMessage").css("color","red");
+		$("#importTwitchFailMessage").show();
+		return;
+	}
 	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
 	if (following == null && add){
 		chrome.storage.local.get({streamers:{}}, function (result) {
@@ -188,6 +257,8 @@ function syncWithTwitch(limit, offset, done, following, add){
 		xhr.open('get', url,true);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200){
+				$(".importTwitchLoading").show();
+				$("#submitButton").hide();
 				json = JSON.parse(xhr.responseText);
 				for (var i=0;i<json.follows.length;i++){
 					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null"};
@@ -228,7 +299,10 @@ function importData(){
 			});
 		});
 	}catch(e){
-		alert("Invalid data format!");
+		$("#importDataFailMessage").html("<br>Invalid data format!");
+		$("#importDataFailMessage").css("font-weight","bold");
+		$("#importDataFailMessage").css("color","red");
+		$("#importDataFailMessage").show();
 	}
 }
 

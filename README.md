@@ -35,7 +35,12 @@ https://www.behance.net/igorcarraco
 
 Changelog
 ============
-(Public Release) 0.8:
+(Public Release) 1.0:
+- Redesign of the popup window
+- Fixed a rare bug where the stream title and url would be undefined
+- Added game icons for some recently popular games
+
+(Public Release) 0.81:
 - Brand new and more polished logo (Thank you Igor! https://www.behance.net/igorcarraco)
 - Major bug fix (Thank you JN)
 - More game icons
