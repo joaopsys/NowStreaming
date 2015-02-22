@@ -12,16 +12,17 @@ PS: You don't need a Twitch account to use NowStreaming!
 First Steps:
 - Install the extension! :)
 - Go watch a stream on Twitch
-- Hit the NowStreaming icon while watching the stream, and click Follow
+- Hit the NowStreaming icon while watching the stream, and start following it!
 - That stream will now appear on your NowStreaming popup and you will get notifications everytime it goes online
 
-If you don't want to receive notifications, you can always disable them by right clicking the NowStreaming icon and clicking Options.
+If you don't want to receive notifications, you can always disable it in the Options Menu.
 
 Advanced Steps:
 - You can import your Twitch following list to Now Streaming!
+- Hit the Show Options button!
 - Hit the Import from Twitch Button
 - Enter your Twitch username
-- Submit
+- Submit!
 
 Anything you do on NowStreaming *WILL NOT* affect your Twitch account.
 
@@ -33,10 +34,10 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WRPYHKBMYZA
 Logo designed by Igor Carraco: 
 https://www.behance.net/igorcarraco
 
-Changelog
-============
+==============================
+Changelog:
 (Public Release) 1.0:
-- Redesign of the popup window
+- Redesign of the popup window (Thanks JN!)
 - Fixed a rare bug where the stream title and url would be undefined
 - Added game icons for some recently popular games
 
