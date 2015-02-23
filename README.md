@@ -36,6 +36,9 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.1:
+- Changed the font to a more suitable one.
+
 (Public Release) 1.0:
 - Redesign of the popup window (Thanks JN!)
 - Fixed a rare bug where the stream title and url would be undefined
