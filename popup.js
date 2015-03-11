@@ -121,6 +121,7 @@ $(document).ready(function () {
 			if (tabUrl.indexOf("www.twitch.tv/") != -1){
 				var parts = tabUrl.split('/');
 				var name = parts[3];
+				name = name.toLowerCase();
 
 				/* Check if name is a streamer */
 					if (isAStreamer(name)){
@@ -233,6 +234,7 @@ function showTwitchForm(){
 
 function syncWithTwitch(limit, offset, done, following, add){
 	var user = document.getElementById("syncWithTwitchInput").value;
+	user = user.toLowerCase();
 	if (user == "mlg360noscope420blazeit")
 		window.open("http://youtu.be/kHYZDveT46c");
 	if (!isAStreamer(user)){
