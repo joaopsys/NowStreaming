@@ -36,6 +36,11 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.2:
+- Corrected font path in the following list
+- Added more game icons and NS icons for the extensions page
+- Fixed a case sensitive situation when following streamers
+
 1.1:
 - Changed the font to a more suitable one.
 
