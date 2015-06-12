@@ -1,6 +1,8 @@
 NowStreaming
 ============
 
+https://chrome.google.com/webstore/detail/nowstreaming/cfdokgjlnihoblidldhdomakblbaegim
+
 Manage your favorite streamers, get instant notifications when they come online, and much more!
 
 NowStreaming is an extension that will greatly improve the way you manage your favorite Twitch streams.
