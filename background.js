@@ -108,6 +108,7 @@ function updateCore(is_first_run,callback) {
 	var xhr = new XMLHttpRequest();
 	var streamers = {};
 	var url = "https://api.twitch.tv/kraken/streams?limit=100&channel=";
+	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
 	temp = [];
 
 	/*Load streamers*/
@@ -128,6 +129,7 @@ function updateCore(is_first_run,callback) {
 			url+=key+",";
 		}
 			xhr.open('get', url,true);
+			xhr.setRequestHeader('Client-ID', appClientID)
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4 && xhr.status == 200){
 					json = JSON.parse(xhr.responseText);

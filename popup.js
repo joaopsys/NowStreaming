@@ -245,6 +245,7 @@ function syncWithTwitch(limit, offset, done, following, add){
 		return;
 	}
 	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
+	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
 	if (following == null && add){
 		chrome.storage.local.get({streamers:{}}, function (result) {
 			var streamers_temp = result.streamers;
@@ -257,6 +258,7 @@ function syncWithTwitch(limit, offset, done, following, add){
 		var json;
 		var xhr = new XMLHttpRequest();
 		xhr.open('get', url,true);
+		xhr.setRequestHeader('Client-ID', appClientID)
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200){
 				$(".importTwitchLoading").show();
@@ -345,7 +347,9 @@ function directFollow(user,remove){
 function isAStreamer(channel){
 	var json;
 	var xhr = new XMLHttpRequest();
+	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
 	xhr.open('get', 'https://api.twitch.tv/kraken/channels/'+channel,false);
+	xhr.setRequestHeader('Client-ID', appClientID)
 	xhr.send();
 	if (xhr.status == "404" || xhr.status == "422")
 		return false;
