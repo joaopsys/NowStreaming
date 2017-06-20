@@ -38,6 +38,28 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.6.1
+- Added game icons and fixed a typo
+
+1.6
+- Fix a critical bug regarding icon file names
+
+1.5
+- Notifications are now configurable per channel
+
+1.4:
+- Major code improvements and code cleanup
+- Removed all XHR requests
+- Fixed bug when syncing Twitch follows (API inconsistency)
+- Updated all Twitch API calls for API v5
+- Updated all CDNs - jquery, pure CSS, fontawesome
+- Fixed insecure (http) Twitch URL
+- Fixed and added more game icons
+
+1.3:
+- Update Twitch API calls to enforce Client ID.
+- More updates coming soon :)
+
 1.2:
 - Corrected font path in the following list
 - Added more game icons and NS icons for the extensions page
