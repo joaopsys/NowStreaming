@@ -50,7 +50,7 @@ $(document).ready(function () {
 		chrome.storage.local.get({
 			add: true
 		}, function(items) {
-			syncWithTwitch(50,0,0,null,items.add);
+			syncWithTwitch(50,0,null,items.add);
 		});
 	});
 	$("#unfollowAllButton").bind("click", unfollowAll);
@@ -66,7 +66,7 @@ $(document).ready(function () {
 		var defaulticon = "icon";
 		var defaulticonpath = "gameicons/";
 		var defaulticontype = ".png";
-		var defaultpage = "http://twitch.tv/";
+		var defaultpage = "https://twitch.tv/";
 		var nfollowing=0;
 		var nstreams=0;
 		$("#streamersTable").append("<tbody>");
@@ -74,10 +74,11 @@ $(document).ready(function () {
 			nfollowing++;
 			$("#followingTable").show();
 			if (nfollowing%2==0)
-				$("#followingTable").append("<tr id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:#29CC29\">Online</span></td>":"<td><span style=\"color:#CC2929\">Offline</span></td>")+"<td><a title=\"Unfollow "+key+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td></tr>");
+				$("#followingTable").append("<tr id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:#29CC29\">Online</span></td>":"<td><span style=\"color:#CC2929\">Offline</span></td>")+"<td><a title=\"Unfollow "+key+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td><td><input type =\"checkbox\" class=\"checkbox\" id=\"notifications-"+key+"\"/></td></tr>");
 			else
-				$("#followingTable").append("<tr class=\"pure-table-odd\" id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:#29CC29\">Online</span></td>":"<td><span style=\"color:#CC2929\">Offline</span></td>")+"<td><a title=\"Unfollow "+key+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td></tr>");
-			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1},followCurrent);
+				$("#followingTable").append("<tr class=\"pure-table-odd\" id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:#29CC29\">Online</span></td>":"<td><span style=\"color:#CC2929\">Offline</span></td>")+"<td><a title=\"Unfollow "+key+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td><td><input type =\"checkbox\" class=\"checkbox\" id=\"notifications-"+key+"\"/></td></tr>");
+			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1}, followCurrent);
+			$("#notifications-"+key+"").bind("click", {name: key}, check_single_notifications);
 			if (streamers[key].flag){
 				nstreams++;
 				$("#streamersTableDiv").show();
@@ -124,37 +125,39 @@ $(document).ready(function () {
 				name = name.toLowerCase();
 
 				/* Check if name is a streamer */
-					if (isAStreamer(name)){
-						if (streamers[name]){
+				twitchAPICall(0,name).done(function (result) {
+					userID = getUserID(result)
+					if (userID > 0) {
+						if (streamers[name]) {
 							remove = 1;
 							$("#unfollowCurrentButton").show();
-							$(".currentMessage").html(" Unfollow "+name);
-							$("#unfollowCurrentButton").bind("click", {name: name, remove: remove},followCurrent);
+							$(".currentMessage").html(" Unfollow " + name);
+							$("#unfollowCurrentButton").bind("click", {name: name, remove: remove}, followCurrent);
 							$("#unfollowCurrentButton").on({
-							    mouseenter: function () {
-							        $(".currentMessage").show();
-							    },
-							    mouseleave: function () {
-							        $(".currentMessage").hide();
-    							}
+								mouseenter: function () {
+									$(".currentMessage").show();
+								},
+								mouseleave: function () {
+									$(".currentMessage").hide();
+								}
 							});
 						}
-						else{
-							remove=0;
+						else {
+							remove = 0;
 							$("#followCurrentButton").show();
-							$(".currentMessage").html(" Follow "+name);
-							$("#followCurrentButton").bind("click", {name: name, remove: remove},followCurrent);
+							$(".currentMessage").html(" Follow " + name);
+							$("#followCurrentButton").bind("click", {name: name, remove: remove}, followCurrent);
 							$("#followCurrentButton").on({
-							    mouseenter: function () {
-							        $(".currentMessage").show();
-							    },
-							    mouseleave: function () {
-							        $(".currentMessage").hide();
-    							}
+								mouseenter: function () {
+									$(".currentMessage").show();
+								},
+								mouseleave: function () {
+									$(".currentMessage").hide();
+								}
 							});
 						}
-						//addToStorage(name);
 					}
+				});
 			}
 		});
 
@@ -178,6 +181,22 @@ function showTooltip(e){
 	var mousey = e.pageY - 50 - $('.tooltip').height(); //Get Y coordinates
 	$('.tooltip')
 	.css({ top: mousey, left: mousex })
+}
+
+function check_single_notifications(event){
+	var user = event.data.name;
+	if(document.getElementById("notifications-"+user).checked) {
+    	chrome.runtime.getBackgroundPage(function(backgroundPage) {
+			backgroundPage.addToStorage(user,2,function(){
+			});
+		});
+	}
+	else{
+		chrome.runtime.getBackgroundPage(function(backgroundPage) {
+			backgroundPage.addToStorage(user,3,function(){
+			});
+		});
+	}
 }
 
 function hideTooltip(e){
@@ -204,7 +223,7 @@ $(window).keydown(function(event){
 			chrome.storage.local.get({
 				add: true
 			}, function(items) {
-				syncWithTwitch(50,0,0,null,items.add);
+				syncWithTwitch(50,0,null,items.add);
 			});
 		}
 		else if($("#importDataInput").is(":focus")){
@@ -217,67 +236,75 @@ $(window).keydown(function(event){
 function fastFollow(){
 	var user = document.getElementById("fastFollowInput").value;
 	user = user.toLowerCase();
-	if (isAStreamer(user)){
-		directFollow(user,0);
-	}
-	else{
-		$("#fastFollowMessage").html("<br>Cannot find "+user);
-		$("#fastFollowMessage").css("font-weight","bold");
-		$("#fastFollowMessage").css("color","red");
-		$("#fastFollowMessage").show();
-	}
+	twitchAPICall(0,user).done(function (result) {
+		userID = getUserID(result);
+		if (userID > 0)
+			directFollow(user,0);
+		else{
+			$("#fastFollowMessage").html("<br>Cannot find "+user);
+			$("#fastFollowMessage").css("font-weight","bold");
+			$("#fastFollowMessage").css("color","red");
+			$("#fastFollowMessage").show();
+		}
+	});
 }
 
 function showTwitchForm(){
 	$("#inputTwitchUser").show();
 }
 
-function syncWithTwitch(limit, offset, done, following, add){
+function syncWithTwitch(limit, offset, storage, add){
 	var user = document.getElementById("syncWithTwitchInput").value;
 	user = user.toLowerCase();
 	if (user == "mlg360noscope420blazeit")
-		window.open("http://youtu.be/kHYZDveT46c");
-	if (!isAStreamer(user)){
-		$("#importTwitchFailMessage").html("<br>Invalid Twitch username!");
-		$("#importTwitchFailMessage").css("font-weight","bold");
-		$("#importTwitchFailMessage").css("color","red");
-		$("#importTwitchFailMessage").show();
-		return;
-	}
-	var url = "https://api.twitch.tv/kraken/users/"+user+"/follows/channels?limit="+limit+"&offset="+offset;
-	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
-	if (following == null && add){
-		chrome.storage.local.get({streamers:{}}, function (result) {
-			var streamers_temp = result.streamers;
-			syncWithTwitch(limit,offset,done,streamers_temp);
+		window.open("https://youtu.be/kHYZDveT46c");
+	// If user selected 'add' instead of replace, we'll call this function again with his current follows
+	if (storage == null){
+		chrome.storage.local.get({streamers:{}, 'notifications':true}, function (result) {
+			if (add)
+				syncWithTwitch(limit,offset,result);
+			else{
+				result.streamers={}
+				syncWithTwitch(limit,offset,result);
+			}
 		});
 	}
 	else{
-		if (following == null)
-			following={};
-		var json;
-		var xhr = new XMLHttpRequest();
-		xhr.open('get', url,true);
-		xhr.setRequestHeader('Client-ID', appClientID)
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.status == 200){
-				$(".importTwitchLoading").show();
-				$("#submitButton").hide();
-				json = JSON.parse(xhr.responseText);
-				for (var i=0;i<json.follows.length;i++){
-					following[json.follows[i].channel.name] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null"};
-				}
-				if (json.follows.length+done >= json._total){
-					chrome.storage.local.set({'streamers': following}, function () {
-						onForceUpdate();
-					});
-				}
-				else{
-					syncWithTwitch(limit, offset+limit,json.follows.length+done,following,add);
-				}
+		// We're ready to get his follows
+		twitchAPICall(0,user).done(function (result) {
+			var userID = getUserID(result)
+			if (userID > 0) {
+				twitchAPICall(1, userID, limit, offset).done(function (json) {
+					$(".importTwitchLoading").show();
+					$("#submitButton").hide();
+					if (json.follows.length == 0) {
+						chrome.storage.local.set({'streamers': storage.streamers}, function () {
+							onForceUpdate();
+						});
+					}
+					else {
+						for (var i = 0; i < json.follows.length; i++) {
+							storage.streamers[json.follows[i].channel.name] = {
+								flag: 1,
+								game: "null",
+								viewers: -1,
+								url: "null",
+								created_at: "null",
+								title: "null",
+								notify: storage.notifications
+							};
+						}
+						syncWithTwitch(limit, offset + limit, storage, add);
+					}
+				});
 			}
-		}
-		xhr.send();
+			else{
+				$("#importTwitchFailMessage").html("<br>Invalid Twitch username!");
+				$("#importTwitchFailMessage").css("font-weight","bold");
+				$("#importTwitchFailMessage").css("color","red");
+				$("#importTwitchFailMessage").show();
+			}
+		});
 	}
 }
 
@@ -297,9 +324,17 @@ function importData(){
 	var data = document.getElementById("importDataInput").value;
 	try{
 		var streamers = JSON.parse(data);
-		chrome.storage.local.set({'streamers': streamers}, function () {
-			chrome.runtime.getBackgroundPage(function(backgroundPage) {
-				backgroundPage.updateCore(1,function(){location.reload();});
+		chrome.storage.local.get({'notifications':true}, function (result) {
+			for (var key in streamers){
+				// Backwards compatibility
+				if (streamers[key].notify == null){
+					streamers[key].notify = result.notifications;
+				}
+			}
+			chrome.storage.local.set({'streamers': streamers}, function () {
+				chrome.runtime.getBackgroundPage(function(backgroundPage) {
+					backgroundPage.updateCore(1,function(){location.reload();});
+				});
 			});
 		});
 	}catch(e){
@@ -315,7 +350,7 @@ function unfollowAll(){
 	onForceUpdate();
 }
 
-function imageExists(url) {	
+function imageExists(url) {
 	var response = jQuery.ajax({
 		url: url,
 		type: 'HEAD',
@@ -344,15 +379,33 @@ function directFollow(user,remove){
 	});
 }
 
-function isAStreamer(channel){
-	var json;
-	var xhr = new XMLHttpRequest();
+function twitchAPICall(type, channel, limit, offset){
 	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
-	xhr.open('get', 'https://api.twitch.tv/kraken/channels/'+channel,false);
-	xhr.setRequestHeader('Client-ID', appClientID)
-	xhr.send();
-	if (xhr.status == "404" || xhr.status == "422")
-		return false;
-	else
-		return true;
+	var acceptVersion = "application/vnd.twitchtv.v5+json";
+	switch(type){
+		case 0:
+			// User to ID
+			var url = "https://api.twitch.tv/kraken/users/?login="+channel
+			break;
+		case 1:
+			// Get user follows with limit and offset
+			var url = "https://api.twitch.tv/kraken/users/"+channel+"/follows/channels?limit="+limit+"&offset="+offset;
+	}
+	return $.ajax({
+		url : url,
+		headers: {
+			'Client-ID': appClientID,
+			'Accept': acceptVersion
+		},
+		dataType: "json",
+		type: 'GET'
+	});
+}
+
+function getUserID(result){
+	try{
+		return result.users[0]._id;
+	}catch(e){
+		return -1;
+	}
 }
