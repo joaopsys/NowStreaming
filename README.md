@@ -38,6 +38,9 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.6.2
+- Fixed a bug when persisting notification state per channel after an extension reload
+
 1.6.1
 - Added game icons and fixed a typo
 
