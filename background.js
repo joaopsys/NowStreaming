@@ -60,7 +60,27 @@ chrome.runtime.onStartup.addListener(function() {
 	chrome.storage.local.get({streamers:{}, 'notifications':true}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
-			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null",notify:result.notifications};
+			if (streamers[key].notify == null) {
+				streamers[key] = {
+					flag: 1,
+					game: "null",
+					viewers: -1,
+					url: "null",
+					created_at: "null",
+					title: "null",
+					notify: result.notifications
+				};
+			} else{
+				streamers[key] = {
+					flag: 1,
+					game: "null",
+					viewers: -1,
+					url: "null",
+					created_at: "null",
+					title: "null",
+					notify: streamers[key].notify
+				};
+			}
 		}
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers}, function () {
@@ -78,7 +98,27 @@ chrome.runtime.onInstalled.addListener(function () {
 	chrome.storage.local.get({streamers:{},'notifications':true,'add':true}, function (result) {
 		streamers = result.streamers;
 		for (var key in streamers){
-			streamers[key] = {flag:1,game:"null",viewers:-1,url:"null",created_at:"null",title:"null",notify:result.notifications};
+			if (streamers[key].notify == null) {
+				streamers[key] = {
+					flag: 1,
+					game: "null",
+					viewers: -1,
+					url: "null",
+					created_at: "null",
+					title: "null",
+					notify: result.notifications
+				};
+			} else{
+				streamers[key] = {
+					flag: 1,
+					game: "null",
+					viewers: -1,
+					url: "null",
+					created_at: "null",
+					title: "null",
+					notify: streamers[key].notify
+				};
+			}
 		}
 		//console.log(streamers);
 		chrome.storage.local.set({'streamers': streamers,'notifications':result.notifications,'add':result.add}, function () {
