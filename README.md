@@ -38,6 +38,11 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.7.1:
+- Change the way icons are loaded to avoid errors
+- Fix wrapping on uptime
+- Fix wrong popout URLs
+
 1.7:
 - Reorganize live streamers table to contain stream uptime
 
