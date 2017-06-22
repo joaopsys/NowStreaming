@@ -84,9 +84,9 @@ $(document).ready(function () {
 				$("#streamersTableDiv").show();
 				$("#streamersTable").show();
 				if (nstreams % 2 == 0)
-					$("#streamersTable").append("<tr id=\"row"+key+"\"><td><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
+					$("#streamersTable").append("<tr id=\"row"+key+"\"><td nowrap><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
 				else
-					$("#streamersTable").append("<tr class=\"pure-table-odd\" id=\"row"+key+"\"><td><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'')+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
+					$("#streamersTable").append("<tr class=\"pure-table-odd\" id=\"row"+key+"\"><td nowrap><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
 
 			}
 		}
@@ -165,7 +165,7 @@ $(document).ready(function () {
 });
 
 function popoutStream(e){
-	var url = $(this).parent().prev().prev().prev().children().first().attr('href');
+	var url = $(this).next().attr('href');
 	window.open(url+"/popout", url, "height=600,width=850");
 	return false;
 }
@@ -194,10 +194,10 @@ function getUptime(created){
 	delta -= hours * 3600;
 	var minutes = Math.floor(delta / 60) % 60;
 	if (hours > 0){
-		return hours+"h"+" "+minutes+"min"
+		return hours+"h"+" "+minutes+"m"
 	}
 	else {
-		return minutes+"min"
+		return minutes+"m"
 	}
 }
 
