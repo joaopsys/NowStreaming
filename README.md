@@ -38,16 +38,19 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
-1.6.2
+1.7:
+- Reorganize live streamers table to contain stream uptime
+
+1.6.2:
 - Fixed a bug when persisting notification state per channel after an extension reload
 
-1.6.1
+1.6.1:
 - Added game icons and fixed a typo
 
-1.6
+1.6:
 - Fix a critical bug regarding icon file names
 
-1.5
+1.5:
 - Notifications are now configurable per channel
 
 1.4:
