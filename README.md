@@ -38,6 +38,9 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.7.2:
+- Update extension name and description on Chrome Webstore
+
 1.7.1:
 - Change the way icons are loaded to avoid errors
 - Fix wrapping on uptime
