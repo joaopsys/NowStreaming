@@ -4,7 +4,7 @@
 	"name": "NowStreaming - Twitch",
 	"options_page": "options.html",
 	"description": "Manage your favorite Twitch streamers, get instant notifications when they come online, and much more!",
-	"version": "1.7.2",
+	"version": "1.7.3",
 	"author": "Jota",
 
 	"background": {

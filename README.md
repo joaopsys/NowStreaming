@@ -38,6 +38,9 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.7.3:
+- Adapt the following button for the new Twitch Beta URL
+
 1.7.2:
 - Update extension name and description on Chrome Webstore
 
