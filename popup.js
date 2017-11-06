@@ -119,7 +119,7 @@ $(document).ready(function () {
 		chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
 			tabUrl = arrayOfTabs[0].url;
 
-			if (tabUrl.indexOf("www.twitch.tv/") != -1){
+			if (tabUrl.indexOf("twitch.tv/") != -1){
 				var parts = tabUrl.split('/');
 				var name = parts[3];
 				name = name.toLowerCase();
