@@ -242,9 +242,9 @@ function updateCore(is_first_run,callback) {
 						tmpurl = json.streams[i].channel.url;
 						var opt = {
 						  type: "basic",
-						  title: "NowStreaming: "+json.streams[i].channel.display_name,
+						  title: "Live: "+json.streams[i].channel.display_name,
 						  message: "Game: "+(json.streams[i].game!=null?json.streams[i].game:"N/A")+"\n"+"Viewers: "+json.streams[i].viewers,
-						  contextMessage: "Click here to watch the stream",
+						  contextMessage: "Click to watch the stream",
 						  buttons:[{title:"Unfollow "+json.streams[i].channel.display_name,iconUrl:"cross.png"}],
 						  iconUrl: json.streams[i].channel.logo!=null?json.streams[i].channel.logo:"icon.png",
 						  isClickable: true

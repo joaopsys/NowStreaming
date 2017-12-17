@@ -38,6 +38,9 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.7.4:
+- Edit notifications title so it has more space for the channel name
+
 1.7.3:
 - Adapt the following button for the new Twitch Beta URL
 
