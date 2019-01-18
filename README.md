@@ -38,6 +38,10 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+1.7.5:
+- Update game icons
+- Update jquery
+
 1.7.4:
 - Edit notifications title so it has more space for the channel name
 
