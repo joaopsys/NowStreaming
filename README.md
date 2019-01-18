@@ -31,7 +31,7 @@ Anything you do on NowStreaming *WILL NOT* affect your Twitch account.
 Feel free to comment about things you like/don't like, I'll give it a look.
 
 If you like this extension and want to support me, you can Donate through PayPal, I'll be very grateful:
-https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WRPYHKBMYZAWA
+https://www.paypal.me/joaopsys
 
 Logo designed by Igor Carraco: 
 https://www.behance.net/igorcarraco
