@@ -3,6 +3,8 @@ NowStreaming
 
 https://chrome.google.com/webstore/detail/nowstreaming/cfdokgjlnihoblidldhdomakblbaegim
 
+https://addons.mozilla.org/en-US/firefox/addon/nowstreaming-twitch/
+
 Manage your favorite streamers, get instant notifications when they come online, and much more!
 
 NowStreaming is an extension that will greatly improve the way you manage your favorite Twitch streams.
@@ -38,6 +40,15 @@ https://www.behance.net/igorcarraco
 
 ==============================
 Changelog:
+
+1.8.1:
+- Minor fixes to icon loading on Firefox
+
+1.8.0:
+- Firefox version released!
+- Fix a bug where clicking on notifications would open an about:blank tab
+- Update some functions to cope with deprecations
+
 1.7.5:
 - Update game icons
 - Update jquery
