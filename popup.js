@@ -63,9 +63,6 @@ $(document).ready(function () {
 
 	chrome.storage.local.get({streamers:{}}, function (result) {
 		streamers = result.streamers;
-		var defaulticon = "icon";
-		var defaulticonpath = "gameicons/";
-		var defaulticontype = ".png";
 		var defaultpage = "https://twitch.tv/";
 		var nfollowing=0;
 		var nstreams=0;
@@ -84,9 +81,9 @@ $(document).ready(function () {
 				$("#streamersTableDiv").show();
 				$("#streamersTable").show();
 				if (nstreams % 2 == 0)
-					$("#streamersTable").append("<tr id=\"row"+key+"\"><td nowrap><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
+					$("#streamersTable").append("<tr id=\"row"+key+"\"><td nowrap><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+loadIcon(streamers[key].game)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
 				else
-					$("#streamersTable").append("<tr class=\"pure-table-odd\" id=\"row"+key+"\"><td nowrap><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+(imageExists(defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype)?defaulticonpath+streamers[key].game.replace(/\:| /g,'').toLowerCase()+defaulticontype:defaulticon+defaulticontype)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
+					$("#streamersTable").append("<tr class=\"pure-table-odd\" id=\"row"+key+"\"><td nowrap><a href=\"#\" title=\"Popout this stream\" class=\"masterTooltip popout fa fa-share-square-o fa-lg\"></a><a title=\""+(streamers[key].title==null?"?":streamers[key].title=="null"?"?":streamers[key].title)+"\" class=\"streamerpage masterTooltip\" href=\""+(streamers[key].url==null?(defaultpage+key):streamers[key].url=="null"?(defaultpage+key):streamers[key].url)+"\" target=\"_blank\">"+key+"</a></td><td><img src=\""+loadIcon(streamers[key].game)+"\" title=\""+streamers[key].game+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key].viewers+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key].created_at)+"</span></td></tr>");
 
 			}
 		}
@@ -368,14 +365,15 @@ function unfollowAll(){
 	onForceUpdate();
 }
 
-function imageExists(url) {
-	var response = jQuery.ajax({
-		url: url,
-		type: 'HEAD',
-		async: false
-	}).status;	
-	
-	return (response != "200") ? false : true;
+// Dirty, I know. But hey, it works and it's fast
+function loadIcon(game) {
+        var allowedIcons = ["apexlegends.png", "archeage.png", "battlefield3.png", "battlefield4.png", "callofdutyblackopsii.png", "callofdutyghosts.png", "chess.png", "counter-strikeglobaloffensive.png", "darksoulsii.png", "dayz.png", "destiny.png", "diabloiii.png", "diabloiiireaperofsouls.png", "don'tstarve.png", "dota2.png", "evolve.png", "fortnite.png", "garry'smod.png", "grandtheftautov.png", "guildwars2.png", "h1z1justsurvive.png", "h1z1kingofthekill.png", "hearthstone.png", "heroesofthestorm.png", "leagueoflegends.png", "left4dead2.png", "lethalleague.png", "lifeisfeudalyourown.png", "magicthegathering.png", "mariokart8.png", "middle-earthshadowofmordor.png", "minecraft.png", "music.png", "osu!.png", "outlast.png", "overwatch.png", "pathofexile.png", "payday2.png", "playerunknown'sbattlegrounds.png", "poker.png", "rift.png", "rocketleague.png", "runescape.png", "rust.png", "smite.png", "starcraftii.png", "thebindingofisaac.png", "thebindingofisaacrebirth.png", "theelderscrollsvskyrim.png", "theevilwithin.png", "thesims4.png", "thewalkingdead.png", "warframe.png", "wildstar.png", "worldoftanks.png", "worldofwarcraft.png"];
+        var generatedIcon = game.replace(/\:| /g,'').toLowerCase()+".png";
+
+        if (allowedIcons.includes(generatedIcon))
+                return "gameicons/"+generatedIcon;
+        else
+                return "icon.png";
 }
 
 function onForceUpdate(){

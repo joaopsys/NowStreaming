@@ -37,8 +37,8 @@ function addToStorage(channel, type, callback){
 				}
 			}
 			if(result.notifications && type < 2){
-				chrome.notifications.clear(type==1?"un":"" + "follow"+channel, function(wasCleared) {});
-				chrome.notifications.create(type==1?"un":"" + "follow"+channel, opt, function(id) {updateCore(0,function(){callback();}); });
+				chrome.notifications.clear((type==1?"un":"") + "follow"+channel+"-nstreaming", function(wasCleared) {});
+				chrome.notifications.create((type==1?"un":"") + "follow"+channel+"-nstreaming", opt, function(id) {updateCore(0,function(){callback();}); });
 			}
 			else{
 				updateCore(0,function(){callback();});
@@ -128,11 +128,9 @@ chrome.runtime.onInstalled.addListener(function () {
 });
 
 chrome.notifications.onClicked.addListener(function(notificationId) {
-	if (notificationId.split("-")[1] == "nstreaming"){
-		window.open("popup.html");
-	}
-	else
-		window.open(notificationId.split('-')[1]);
+        if (notificationId.split("-")[1] != "nstreaming"){
+                chrome.tabs.create({url: notificationId.split('-')[1]});
+        }
 });
 
 chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
@@ -268,21 +266,6 @@ function updateCore(is_first_run,callback) {
 					}
 				}
 				chrome.storage.local.set({'streamers': streamers}, function () {
-					/*if (is_first_run){
-						if (onlineStreams > 0){
-							var opt = {
-							  type: "basic",
-							  title: "NowStreaming",
-							  message: "There "+(onlineStreams==1?"is":"are")+" currently "+onlineStreams+(onlineStreams==1?" streamer":" streamers")+" online.",
-							  contextMessage: "Click here for more details.",
-							  iconUrl: "icon.png"
-							}
-							if (result.notifications){
-								chrome.notifications.clear(onlineStreams+"-nstreaming", function(wasCleared) {});
-								chrome.notifications.create(onlineStreams+"-nstreaming", opt, function(id){});
-							}
-						}
-					}*/
 					chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#B80000":"#009933")});
 					chrome.browserAction.setBadgeText({"text": ""+onlineStreams});
 				callback();
