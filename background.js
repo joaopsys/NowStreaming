@@ -266,8 +266,9 @@ function updateCore(is_first_run,callback) {
 					}
 				}
 				chrome.storage.local.set({'streamers': streamers}, function () {
-					chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#B80000":"#009933")});
+					chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#B80000":"#666161")});
 					chrome.browserAction.setBadgeText({"text": ""+onlineStreams});
+					chrome.browserAction.setBadgeTextColor({"color": '#FFFFFF'});
 				callback();
 				});
 			});
