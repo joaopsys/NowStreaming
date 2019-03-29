@@ -331,7 +331,7 @@ function showTooltip(e){
 	$('<p class="tooltip"></p>')
 	.text(title)
 	.appendTo('body')
-	.fadeIn('slow');
+	.fadeIn('fast');
 	
 	// Tooltip too close to top of window
 	if(e.pageY < 70) {
