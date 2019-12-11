@@ -615,7 +615,7 @@ function followCurrent(event){
 
 function directFollow(user,remove){
 	chrome.runtime.getBackgroundPage(function(backgroundPage) {
-		backgroundPage.addToStorage(user,remove,function(){
+		backgroundPage.addToStorage(user.trim(),remove,function(){
 			location.reload();
 		});
 	});
