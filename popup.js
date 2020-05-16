@@ -196,9 +196,9 @@ function updateTable() {
 				$("#streamersTableDiv").show();
 				$("#streamersTable").show();
 				if (nstreams % 2 == 0)
-					$("#streamersTable").append("<tr class=\" list-row table-even\" id=\"row"+sanitize(streamers[key][0])+"\"><td nowrap><i title=\"Popout this stream\" class=\"masterTooltip popout fas fa-share-square fa-lg\"></i><a title=\""+sanitize(streamers[key][1]["title"])+"\" class=\"streamerpage masterTooltip\" href=\""+sanitize(streamers[key][1]["url"], defaultpage+key)+"\" target=\"_blank\">"+sanitize(streamers[key][0])+"</a></td><td><img src=\""+loadIcon(streamers[key][1]["game"])+"\" title=\""+sanitize(streamers[key][1]["game"])+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key][1]["viewers"]+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key][1]["created_at"])+"</span></td></tr>");
+					$("#streamersTable").append("<tr class=\" list-row table-even\" id=\"row"+sanitize(streamers[key][0])+"\"><td nowrap><i title=\"Popout this stream\" class=\"masterTooltip popout fas fa-share-square fa-lg\"></i><a title=\""+sanitize(streamers[key][1]["title"])+"\" class=\"streamerpage masterTooltip\" href=\""+sanitize(streamers[key][1]["url"], defaultpage+key)+"\" target=\"_blank\">"+sanitize(streamers[key][0])+"</a></td><td><img src=\""+loadIcon(streamers[key][1]["game"])+"\" title=\""+sanitize(streamers[key][1]["game"])+"\" class=\"masterTooltip\" width=\"57\" height=\"76\"/></td><td><span class=\"viewersclass\">"+streamers[key][1]["viewers"]+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key][1]["created_at"])+"</span></td></tr>");
 				else
-					$("#streamersTable").append("<tr class=\" list-row table-odd\" id=\"row"+sanitize(streamers[key][0])+"\"><td nowrap><i title=\"Popout this stream\" class=\"masterTooltip popout fas fa-share-square fa-lg\"></i><a title=\""+sanitize(streamers[key][1]["title"])+"\" class=\"streamerpage masterTooltip\" href=\""+sanitize(streamers[key][1]["url"], defaultpage+key)+"\" target=\"_blank\">"+sanitize(streamers[key][0])+"</a></td><td><img src=\""+loadIcon(streamers[key][1]["game"])+"\" title=\""+sanitize(streamers[key][1]["game"])+"\" class=\"masterTooltip\" width=\"30\" height=\"30\"/></td><td><span class=\"viewersclass\">"+streamers[key][1]["viewers"]+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key][1]["created_at"])+"</span></td></tr>");
+					$("#streamersTable").append("<tr class=\" list-row table-odd\" id=\"row"+sanitize(streamers[key][0])+"\"><td nowrap><i title=\"Popout this stream\" class=\"masterTooltip popout fas fa-share-square fa-lg\"></i><a title=\""+sanitize(streamers[key][1]["title"])+"\" class=\"streamerpage masterTooltip\" href=\""+sanitize(streamers[key][1]["url"], defaultpage+key)+"\" target=\"_blank\">"+sanitize(streamers[key][0])+"</a></td><td><img src=\""+loadIcon(streamers[key][1]["game"])+"\" title=\""+sanitize(streamers[key][1]["game"])+"\" class=\"masterTooltip\" width=\"57\" height=\"76\"/></td><td><span class=\"viewersclass\">"+streamers[key][1]["viewers"]+"</span></td><td nowrap><span class=\"uptimeclass\">"+getUptime(streamers[key][1]["created_at"])+"</span></td></tr>");
 
 			}
 		}
@@ -591,15 +591,9 @@ function unfollowAll(){
 	onForceUpdate();
 }
 
-// Dirty, I know. But hey, it works and it's fast
 function loadIcon(game) {
-        var allowedIcons = ["apexlegends.png", "archeage.png", "battlefield3.png", "battlefield4.png", "callofdutyblackopsii.png", "callofdutyghosts.png", "chess.png", "counter-strikeglobaloffensive.png", "darksoulsii.png", "dayz.png", "destiny.png", "diabloiii.png", "diabloiiireaperofsouls.png", "don'tstarve.png", "dota2.png", "evolve.png", "fortnite.png", "garry'smod.png", "grandtheftautov.png", "guildwars2.png", "h1z1justsurvive.png", "h1z1kingofthekill.png", "hearthstone.png", "heroesofthestorm.png", "leagueoflegends.png", "left4dead2.png", "lethalleague.png", "lifeisfeudalyourown.png", "magicthegathering.png", "mariokart8.png", "middle-earthshadowofmordor.png", "minecraft.png", "music.png", "osu!.png", "outlast.png", "overwatch.png", "pathofexile.png", "payday2.png", "playerunknown'sbattlegrounds.png", "poker.png", "rift.png", "rocketleague.png", "runescape.png", "rust.png", "smite.png", "starcraftii.png", "thebindingofisaac.png", "thebindingofisaacrebirth.png", "theelderscrollsvskyrim.png", "theevilwithin.png", "thesims4.png", "thewalkingdead.png", "warframe.png", "wildstar.png", "worldoftanks.png", "worldofwarcraft.png"];
-        var generatedIcon = game.replace(/\:| /g,'').toLowerCase()+".png";
-
-        if (allowedIcons.includes(generatedIcon))
-                return "gameicons/"+generatedIcon;
-        else
-                return "icon.png";
+	var generatedIcon = "https://static-cdn.jtvnw.net/ttv-boxart/"+game+"-57x76.jpg";
+		return generatedIcon;
 }
 
 function onForceUpdate(){
