@@ -111,7 +111,7 @@ $(document).ready(function () {
 	$("#submitData").bind("click", importData);
 	$("#submitFastFollow").bind("click", fastFollow);
 
-	$("#versionDiv").append(chrome.app.getDetails().version);
+	$("#versionDiv").append(chrome.runtime.getManifest().version);
 
 	updateTable();
 	updateTheme();
@@ -242,7 +242,7 @@ function updateTable() {
 				name = name.toLowerCase();
 
 				/* Check if name is a streamer */
-				twitchAPICall(0,name).done(function (result) {
+				twitchAPICall(0,name).then(result => {
 					userID = getUserID(result)
 					if (userID > 0) {
 						if (streamersDict[name]) {
@@ -402,16 +402,12 @@ function getUptime(created){
 function check_single_notifications(event){
 	var user = event.data.name;
 	if(document.getElementById("notifications-"+user).checked) {
-    	chrome.runtime.getBackgroundPage(function(backgroundPage) {
-			backgroundPage.addToStorage(user,2,function(){
-			});
-		});
+        chrome.runtime.sendMessage({type: 1, channel: user, subType: 2}, function() {
+        });
 	}
 	else{
-		chrome.runtime.getBackgroundPage(function(backgroundPage) {
-			backgroundPage.addToStorage(user,3,function(){
-			});
-		});
+        chrome.runtime.sendMessage({type: 1, channel: user, subType: 3}, function() {
+        });
 	}
 }
 
@@ -458,7 +454,7 @@ $(window).keydown(function(event){
 function fastFollow(){
 	var user = document.getElementById("fastFollowInput").value;
 	user = user.toLowerCase();
-	twitchAPICall(0,user).done(function (result) {
+	twitchAPICall(0,user).then(result => {
 		userID = getUserID(result);
 		if (userID > 0)
 			directFollow(user,0);
@@ -492,10 +488,10 @@ function syncWithTwitch(limit, offset, storage, add){
 	}
 	else{
 		// We're ready to get his follows
-		twitchAPICall(0,user).done(function (result) {
+		twitchAPICall(0,user).then(result => {
 			var userID = getUserID(result)
 			if (userID > 0) {
-				twitchAPICall(1, userID, limit, offset).done(function (json) {
+				twitchAPICall(1, userID, limit, offset).then(json => {
 					$("#importTwitchLoading").show();
 					if (json.follows.length == 0) {
 						chrome.storage.local.set({'streamers': storage.streamers}, function () {
@@ -575,9 +571,7 @@ function importData(){
 				}
 			}
 			chrome.storage.local.set({'streamers': streamers}, function () {
-				chrome.runtime.getBackgroundPage(function(backgroundPage) {
-					backgroundPage.updateCore(1,function(){location.reload();});
-				});
+				onForceUpdate();
 			});
 		});
 	}catch(e){
@@ -606,10 +600,9 @@ function loadIcon(game) {
 }
 
 function onForceUpdate(){
-	chrome.runtime.getBackgroundPage(function(backgroundPage) {
-		backgroundPage.updateCore(1,function(){location.reload();});
-		//location.reload();
-	});
+    chrome.runtime.sendMessage({type: 0, is_first_run: 1}, function() {
+        location.reload();
+    });
 }
 
 function followCurrent(event){
@@ -617,14 +610,12 @@ function followCurrent(event){
 }
 
 function directFollow(user,remove){
-	chrome.runtime.getBackgroundPage(function(backgroundPage) {
-		backgroundPage.addToStorage(user.trim(),remove,function(){
-			location.reload();
-		});
-	});
+    chrome.runtime.sendMessage({type: 1, channel: user.trim(), subType: remove}, function() {
+        location.reload();
+    });
 }
 
-function twitchAPICall(type, channel, limit, offset){
+async function twitchAPICall(type, channel, limit, offset){
 	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
 	var acceptVersion = "application/vnd.twitchtv.v5+json";
 	switch(type){
@@ -636,8 +627,7 @@ function twitchAPICall(type, channel, limit, offset){
 			// Get user follows with limit and offset
 			var url = "https://api.twitch.tv/kraken/users/"+channel+"/follows/channels?limit="+limit+"&offset="+offset+"&sortby=login";
 	}
-	return $.ajax({
-		url : url,
+	const response = await fetch(url, {
 		headers: {
 			'Client-ID': appClientID,
 			'Accept': acceptVersion
@@ -645,6 +635,7 @@ function twitchAPICall(type, channel, limit, offset){
 		dataType: "json",
 		type: 'GET'
 	});
+	return response.json();
 }
 
 function sanitize(string, defaultreturn="?"){

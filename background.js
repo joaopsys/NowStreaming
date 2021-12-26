@@ -56,6 +56,24 @@ function isEmpty(map) {
    return true;
 }
 
+// Listener used to communicate with the popup
+// request.type == 0: Calls updatecore using request.is_first_run
+// request.type == 1: Calls addToStorage using request.channel and request.subType
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        switch (request.type) {
+            case 0:
+                // updateCore
+                updateCore(request.is_first_run, sendResponse)
+                break;
+			case 1:
+				// addToStorage
+                addToStorage(request.channel, request.subType, sendResponse)
+				break;
+        }
+        return true;
+    }
+);
+
 chrome.runtime.onStartup.addListener(function() {
 	chrome.storage.local.get({streamers:{}, 'notifications':true}, function (result) {
 		streamers = result.streamers;
@@ -146,7 +164,7 @@ function getFollowing(){
 	});
 }
 
-function twitchAPIBackgroundCall(type, channels){
+async function twitchAPIBackgroundCall(type, channels){
 	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
 	var acceptVersion = "application/vnd.twitchtv.v5+json";
 	switch(type){
@@ -158,8 +176,7 @@ function twitchAPIBackgroundCall(type, channels){
 			// Get streams
 			var url = "https://api.twitch.tv/kraken/streams?limit=100&channel="+channels
 	}
-	return $.ajax({
-		url : url,
+    const response = await fetch(url, {
 		headers: {
 			'Client-ID': appClientID,
 			'Accept': acceptVersion
@@ -167,6 +184,7 @@ function twitchAPIBackgroundCall(type, channels){
 		dataType: "json",
 		type: 'GET'
 	});
+	return response.json();
 }
 
 function getUserIDBatch(result){
@@ -189,7 +207,7 @@ function updateCore(is_first_run,callback) {
 		/* Not following anyone? Don't do anything */
 
 		if (isEmpty(streamers)){
-			chrome.browserAction.setBadgeText({"text": ""});
+			chrome.action.setBadgeText({"text": ""});
 			callback();
 			return;
 		}
@@ -204,8 +222,8 @@ function updateCore(is_first_run,callback) {
 		streamersArray.forEach(function(listItem, index){
 			urlAppend+=listItem+",";
 			if ( (index != 0 && index % 99 == 0) || index == streamersArray.length - 1){
-				twitchAPIBackgroundCall(0, urlAppend.slice(0,-1)).done(function (json) {
-					idsArray = $.merge(idsArray, getUserIDBatch(json));
+				twitchAPIBackgroundCall(0, urlAppend.slice(0,-1)).then(json => {
+					idsArray = idsArray.concat(getUserIDBatch(json));
 					processedCalls++;
 					if (totalCalls == processedCalls){
 						getStreams();
@@ -220,7 +238,7 @@ function updateCore(is_first_run,callback) {
 			for (var i = 0; i < idsArray.length; i++){
 				urlAppend+=idsArray[i]+",";
 			}
-			twitchAPIBackgroundCall(1, urlAppend.slice(0,-1)).done(function (json) {
+			twitchAPIBackgroundCall(1, urlAppend.slice(0,-1)).then(json => {
 				var onlineStreams=0;
 				/* If anyone is streaming then this loop will run */
 				for (i=0;i<json.streams.length;i++){
@@ -258,8 +276,8 @@ function updateCore(is_first_run,callback) {
 					}
 				}
 				chrome.storage.local.set({'streamers': streamers}, function () {
-					chrome.browserAction.setBadgeBackgroundColor({"color": (onlineStreams==0?"#B80000":"#666161")});
-					chrome.browserAction.setBadgeText({"text": ""+onlineStreams});
+					chrome.action.setBadgeBackgroundColor({"color": (onlineStreams==0?"#B80000":"#666161")});
+					chrome.action.setBadgeText({"text": ""+onlineStreams});
 				callback();
 				});
 			});
