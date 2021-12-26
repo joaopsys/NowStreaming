@@ -249,10 +249,11 @@ body .fastFollow {
   text-decoration: none;
 }
 body .fastFollow input {
-  width: 230px;
+  width: 240px;
 }
 body .fastFollow input::placeholder {
   font-style: italic;
+  color: black;
 }
 body .fastFollow i {
   line-height: 20px;
@@ -272,7 +273,25 @@ body .fast-follow-message {
   display: grid;
 }
 .no-following .no-following-instructions {
+  padding-left: 30px;
+}
+.no-token {
+  display: grid;
+}
+.no-token .no-token-instructions {
   padding-left: 40px;
+}
+.no-token button:hover{
+  color: var(--twitch);
+}
+.no-token button{
+  justify-self: center;
+  height: 35px;
+  width: 200px;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: transparent;
+  color: var(--text-color);
 }
 
 #followingTable{
@@ -287,6 +306,10 @@ body .fast-follow-message {
 #followingTable a{
   color: var(--warning);
   text-decoration: none;
+}
+
+#followingTable #thfirst {
+  cursor: pointer;
 }
 
 .optionsDiv {
@@ -357,6 +380,7 @@ body .fast-follow-message {
 }
 .optionsDiv .import-twitch .imports-inputs input::placeholder {
   font-style: italic;
+  color: black;
 }
 .optionsDiv .import-twitch .imports-inputs button{
   justify-self: center;
@@ -365,11 +389,12 @@ body .fast-follow-message {
   border-radius: 8px;
   padding: 8px;
   background-color: transparent;
+  color: var(--text-color);
 }
 .optionsDiv .import-twitch button:hover{
   color: var(--twitch);
 }
-.optionsDiv .import-twitch .inportTwitchUser {
+.optionsDiv .import-twitch .importTwitchUser {
   display: grid;
   grid-auto-columns: min-content;
 }
@@ -468,7 +493,6 @@ body .fast-follow-message {
   align-content: center;
   justify-content: center;
 }
-
 
 footer{
   border-top: none;

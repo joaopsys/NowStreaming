@@ -2,6 +2,9 @@ var nfollowing = 0;
 var nstreams = 0;
 var defaultDescendingOrder = true;
 var defaultSort = 3;
+var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
+var OAuthAccessToken = '';
+var defaultpage = "https://twitch.tv/";
 
 $(document).ready(function () {
 	$("#optionsDiv").hide();
@@ -9,6 +12,7 @@ $(document).ready(function () {
 	$("#followCurrentButton").hide();
 	$("#unfollowCurrentButton").hide();
 	$("#noFollowing").hide();
+    $("#noToken").hide();
 	$("#noStreams").hide();
 	$("#streamersTable").hide();
 	$("#streamersTableDiv").hide();
@@ -35,26 +39,32 @@ $(document).ready(function () {
 			return false;
 		}
 	});
-	$("#streamersTable #thfirst").on({
-		click: function(){
-			changeSort(0);
-		}
-	});
-	$("#streamersTable #thsecond").on({
-		click: function(){
-			changeSort(1);
-		}
-	});
-	$("#streamersTable #ththird").on({
-		click: function(){
-			changeSort(2);
-		}
-	});
-	$("#streamersTable #thfourth").on({
-		click: function(){
-			changeSort(3);
-		}
-	});
+    $("#followingTable #thfirst").on({
+        click: function(){
+            changeSort(0);
+            location.reload();
+        }
+    });
+    $("#streamersTable #thfirst").on({
+        click: function(){
+            changeSort(0);
+        }
+    });
+    $("#streamersTable #thsecond").on({
+        click: function(){
+            changeSort(1);
+        }
+    });
+    $("#streamersTable #ththird").on({
+        click: function(){
+            changeSort(2);
+        }
+    });
+    $("#streamersTable #thfourth").on({
+        click: function(){
+            changeSort(3);
+        }
+    });
 	$("#toggleOptions").on({
 		click: function(){
 			if ($("#optionsDiv").css('display') == 'none'){
@@ -63,6 +73,7 @@ $(document).ready(function () {
 				$("#streamersDiv").hide();
 				$("#fastFollow").hide();
 				$("#noFollowing").hide();
+                $("#noToken").hide();
 				$("#fastFollowMessage").hide();
 				$("#toggleStreamers").removeClass("selected-tab");
 			}
@@ -102,12 +113,13 @@ $(document).ready(function () {
 		chrome.storage.local.get({
 			add: true
 		}, function(items) {
-			syncWithTwitch(50,0,null,items.add);
+			syncWithTwitch(null,null,items.add);
 		});
 	});
 	$("#unfollowAll").bind("click", unfollowAll);
 	$("#exportFollowingButton").bind("click", exportFollowing);
 	$("#importFollowingButton").bind("click",importFollowing);
+    $("#authenticate").bind("click",authenticate);
 	$("#submitData").bind("click", importData);
 	$("#submitFastFollow").bind("click", fastFollow);
 
@@ -117,11 +129,27 @@ $(document).ready(function () {
 	updateTheme();
 });
 
+function authenticate(){
+    chrome.runtime.sendMessage({type: 3}, function() {
+    });
+}
 
 // 0 = streamer, 1 = game, 2 = viewers, 3 = uptime
 function updateTable() {
-	chrome.storage.local.get({sortMethod: {}, streamers:{}}, function (result) {
-		streamersDict = result.streamers;
+    chrome.storage.local.get({sortMethod: {}, streamers:{}, access_token: ''}, function (result) {
+        if (result.access_token == ''){
+            $("#noFollowing").hide();
+            $("#unfollowAll").hide();
+            $("#fastFollow").hide();
+            $("#manageFollowingButton").hide();
+            $("#streamersDiv").hide();
+            $("#noToken").show();
+            return
+        }
+        else{
+            OAuthAccessToken = result.access_token;
+        }
+        streamersDict = result.streamers;
 		// Creating an array based on the dictionary list for it to be sorted
 		streamersArray = Object.keys(streamersDict).map(function(key) {
 			return [key, streamersDict[key]];
@@ -172,23 +200,20 @@ function updateTable() {
 				});
 				break;
 			}
-		var defaultpage = "https://twitch.tv/";
-		nfollowing=0;
-		nstreams=0;
-		$("#tableBody").empty();
-		// Looping on the dictionary first
-		// We will keep the following list unsorted / sorted alphabetically
-		streamers = streamersDict;
+        nfollowing=0;
+        nstreams=0;
+        $("#tableBody").empty();
+        streamers = streamersArray;
 		for (var key in streamers){
 			nfollowing++;
 			$("#followingTable").show();
 			if (nfollowing%2==0)
-				$("#followingTable").append("<tr id=\""+key+"\"><td><a class=\"streamerpage table-even\" href=\""+sanitize(streamers[key].url, defaultpage+key)+"\" target=\"_blank\">"+sanitize(key)+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:var(--accept)\">Online</span></td>":"<td><span style=\"color:var(--warning)\">Offline</span></td>")+"<td><a title=\"Unfollow "+sanitize(key)+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td><td><input type =\"checkbox\" class=\"checkbox\" id=\"notifications-"+key+"\"/></td></tr>");
-			else
-				$("#followingTable").append("<tr class=\"table-odd\" id=\""+key+"\"><td><a class=\"streamerpage\" href=\""+sanitize(streamers[key].url, defaultpage+key)+"\" target=\"_blank\">"+sanitize(key)+"</a></td>"+(streamers[key].flag?"<td><span style=\"color:var(--accept)\">Online</span></td>":"<td><span style=\"color:var(--warning)\">Offline</span></td>")+"<td><a title=\"Unfollow "+sanitize(key)+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+key+"\" href=\"#\"></a></td><td><input type =\"checkbox\" class=\"checkbox\" id=\"notifications-"+key+"\"/></td></tr>");
-			$("#unfollow-"+key+"").bind("click", {name: key, remove: 1}, followCurrent);
-			$("#notifications-"+key+"").bind("click", {name: key}, check_single_notifications);
-		}
+                $("#followingTable").append("<tr id=\""+streamers[key][0]+"\"><td><a class=\"streamerpage table-even\" href=\""+sanitize(streamers[key][1]["url"], defaultpage+streamers[key][0])+"\" target=\"_blank\">"+sanitize(streamers[key][0])+"</a></td>"+(streamers[key][1]["flag"]?"<td><span style=\"color:var(--accept)\">Online</span></td>":"<td><span style=\"color:var(--warning)\">Offline</span></td>")+"<td><a title=\"Unfollow "+sanitize(streamers[key][0])+"\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-"+streamers[key][0]+"\" href=\"#\"></a></td><td><input type =\"checkbox\" class=\"checkbox\" id=\"notifications-"+streamers[key][0]+"\"/></td></tr>");
+            else
+                $("#followingTable").append("<tr class=\"table-odd\" id=\"" + streamers[key][0] + "\"><td><a class=\"streamerpage\" href=\"" + sanitize(streamers[key][1]["url"], defaultpage + streamers[key][0]) + "\" target=\"_blank\">" + sanitize(streamers[key][0]) + "</a></td>" + (streamers[key][1]["flag"] ? "<td><span style=\"color:var(--accept)\">Online</span></td>" : "<td><span style=\"color:var(--warning)\">Offline</span></td>") + "<td><a title=\"Unfollow " + sanitize(streamers[key][0]) + "\" class=\"fa fa-times fa-lg masterTooltip unfollowstreamer\" id=\"unfollow-" + streamers[key][0] + "\" href=\"#\"></a></td><td><input type =\"checkbox\" class=\"checkbox\" id=\"notifications-" + streamers[key][0] + "\"/></td></tr>");
+            $("#unfollow-"+streamers[key][0]+"").bind("click", {name: streamers[key][0], remove: 1}, followCurrent);
+            $("#notifications-"+streamers[key][0]+"").bind("click", {name: streamers[key][0]}, check_single_notifications);
+        }
 		// Looping on the array now
 		// This one we want to sort
 		streamers = streamersArray;
@@ -237,9 +262,7 @@ function updateTable() {
 			var tabUrl = arrayOfTabs[0].url;
 
 			if (tabUrl.indexOf("twitch.tv/") != -1){
-				var parts = tabUrl.split('/');
-				var name = parts[3];
-				name = name.toLowerCase();
+                var name = new URL(tabUrl).pathname.substring(1).toLowerCase();
 
 				/* Check if name is a streamer */
 				twitchAPICall(0,name).then(result => {
@@ -429,7 +452,6 @@ function updateTooltip(e){
 	.css({ top: mousey, left: mousex })
 }
 
-
 $(window).keydown(function(event){
 	if(event.keyCode == 13){
 		event.preventDefault();
@@ -441,7 +463,7 @@ $(window).keydown(function(event){
 			chrome.storage.local.get({
 				add: true
 			}, function(items) {
-				syncWithTwitch(50,0,null,items.add);
+				syncWithTwitch(null,null,items.add);
 			});
 		}
 		else if($("#importDataInput").is(":focus")){
@@ -468,7 +490,14 @@ function fastFollow(){
 	document.getElementById("fastFollowInput").value = '';
 }
 
-function syncWithTwitch(limit, offset, storage, add){
+function syncWithTwitch(pagination, storage, add){
+    if (pagination == ''){
+        chrome.storage.local.set({'streamers': storage.streamers}, function () {
+            onForceUpdate();
+        });
+        document.getElementById("syncWithTwitchInput").value = '';
+        return
+    }
 	var user = document.getElementById("syncWithTwitchInput").value;
 	user = user.toLowerCase();
 	if (user == "mlg360noscope420blazeit"){
@@ -478,12 +507,12 @@ function syncWithTwitch(limit, offset, storage, add){
 	// If user selected 'add' instead of replace, we'll call this function again with his current follows
 	if (storage == null){
 		chrome.storage.local.get({streamers:{}, 'notifications':true}, function (result) {
-			if (add)
-				syncWithTwitch(limit,offset,result);
-			else{
-				result.streamers={}
-				syncWithTwitch(limit,offset,result);
-			}
+            if (add)
+                syncWithTwitch(pagination,result);
+            else{
+                result.streamers={}
+                syncWithTwitch(pagination,result);
+            }
 		});
 	}
 	else{
@@ -491,39 +520,40 @@ function syncWithTwitch(limit, offset, storage, add){
 		twitchAPICall(0,user).then(result => {
 			var userID = getUserID(result)
 			if (userID > 0) {
-				twitchAPICall(1, userID, limit, offset).then(json => {
-					$("#importTwitchLoading").show();
-					if (json.follows.length == 0) {
-						chrome.storage.local.set({'streamers': storage.streamers}, function () {
-							onForceUpdate();
-						});
-						document.getElementById("syncWithTwitchInput").value = '';
-					}
-					else {
-						for (var i = 0; i < json.follows.length; i++) {
-							storage.streamers[json.follows[i].channel.name] = {
-								flag: 1,
-								game: "null",
-								viewers: -1,
-								url: "null",
-								created_at: "null",
-								title: "null",
-								notify: storage.notifications
-							};
-						}
-						syncWithTwitch(limit, offset + limit, storage, add);
-					}
-				});
-			}
-			else{
-				$("#importTwitchFailMessage").html("<br>Invalid Twitch username!");
-				$("#importTwitchFailMessage").css("font-weight","bold");
-				$("#importTwitchFailMessage").css("color","red");
-				$("#importTwitchFailMessage").show();
-				document.getElementById("syncWithTwitchInput").value = '';
-			}
-		});
-	}
+                twitchAPICall(1, userID, pagination).then(json => {
+                    if (json.data.length > 0) {
+                        $("#importTwitchLoading").show();
+                        for (var i = 0; i < json.data.length; i++) {
+                            storage.streamers[json.data[i].to_login] = {
+                                flag: 1,
+                                game: "null",
+                                viewers: -1,
+                                url: "null",
+                                created_at: "null",
+                                title: "null",
+                                notify: storage.notifications
+                            };
+                        }
+                        syncWithTwitch(json.pagination.cursor==null?'':json.pagination.cursor, storage, add);
+                    }
+                    else{
+                        $("#importTwitchFailMessage").html("<br>The follow list for that user is empty.");
+                        $("#importTwitchFailMessage").css("font-weight","bold");
+                        $("#importTwitchFailMessage").css("color","red");
+                        $("#importTwitchFailMessage").show();
+                        document.getElementById("syncWithTwitchInput").value = '';
+                    }
+                });
+            }
+            else{
+                $("#importTwitchFailMessage").html("<br>Invalid Twitch username.");
+                $("#importTwitchFailMessage").css("font-weight","bold");
+                $("#importTwitchFailMessage").css("color","red");
+                $("#importTwitchFailMessage").show();
+                document.getElementById("syncWithTwitchInput").value = '';
+            }
+        });
+    }
 }
 
 function exportFollowing(){
@@ -615,22 +645,20 @@ function directFollow(user,remove){
     });
 }
 
-async function twitchAPICall(type, channel, limit, offset){
-	var appClientID = "tn2qigcd7zaj1ivt1xbhw0fl2y99c4y";
-	var acceptVersion = "application/vnd.twitchtv.v5+json";
-	switch(type){
-		case 0:
-			// User to ID
-			var url = "https://api.twitch.tv/kraken/users/?login="+channel
-			break;
-		case 1:
-			// Get user follows with limit and offset
-			var url = "https://api.twitch.tv/kraken/users/"+channel+"/follows/channels?limit="+limit+"&offset="+offset+"&sortby=login";
-	}
+async function twitchAPICall(type, channel, pagination){
+    switch(type){
+        case 0:
+            // User to ID
+            var url = "https://api.twitch.tv/helix/users/?login="+channel
+            break;
+        case 1:
+            // Get user follows with limit and offset
+            var url = "https://api.twitch.tv/helix/users/follows?from_id="+channel+"&first=100"+(pagination ? '&after='+pagination : '');
+    }
 	const response = await fetch(url, {
 		headers: {
 			'Client-ID': appClientID,
-			'Accept': acceptVersion
+            'Authorization': 'Bearer ' + OAuthAccessToken
 		},
 		dataType: "json",
 		type: 'GET'
@@ -646,9 +674,9 @@ function sanitize(string, defaultreturn="?"){
 }
 
 function getUserID(result){
-	try{
-		return result.users[0]._id;
-	}catch(e){
-		return -1;
-	}
+    try{
+        return result.data[0].id;
+    }catch(e){
+        return -1;
+    }
 }
