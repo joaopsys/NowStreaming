@@ -355,6 +355,6 @@ function updateCore(is_first_run,callback) {
                     }
                 }
             });
-        })
+        });
     });
 }
