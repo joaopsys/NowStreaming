@@ -64,6 +64,7 @@ function isEmpty(map) {
 // request.type == 0: Calls updatecore using request.is_first_run
 // request.type == 1: Calls addToStorage using request.channel and request.subType
 // request.type == 3: Calls initiateOAuth
+// request.type == 4: Calls revokeOAuth
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         switch (request.type) {
             case 0:
@@ -77,6 +78,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             case 3:
                 // initiateOAuth
                 initiateOAuth();
+                sendResponse();
+                break;
+            case 4:
+                // revokeOAuth
+                revokeOAuth();
                 sendResponse();
                 break;
         }
@@ -181,6 +187,18 @@ function initiateOAuth(){
     });
 }
 
+function revokeOAuth(){
+    chrome.storage.local.get({access_token:''}, function (result) {
+        revokeOAuthAccessToken(result.access_token).then(response => {
+            if (response.status == 200) {
+                chrome.storage.local.set({access_token: ''}, function () {
+                    updateCore(1,function (){});
+                });
+            }
+        });
+    });
+}
+
 function setOAuthAccessToken(token) {
     OAuthAccessToken = token;
 }
@@ -206,20 +224,30 @@ function extractAndSaveOAuthAccessToken(response_url){
 }
 
 function authorize(prompt, callback) {
-    console.log(chrome.identity.getRedirectURL());
     var oauth_url = 'https://id.twitch.tv/oauth2/authorize?client_id=' + appClientID + '&redirect_uri=' + chrome.identity.getRedirectURL() + '&response_type=token&force_verify='+prompt+'&state='+OAuthState;
     return chrome.identity.launchWebAuthFlow({url: oauth_url, interactive: true}, callback);
 }
 
+async function revokeOAuthAccessToken(token){
+    var url = "https://id.twitch.tv/oauth2/revoke";
+    var form = new FormData();
+    form.append('client_id', appClientID);
+    form.append('token', token);
+    const response = await fetch(url, {
+        body: form,
+        method: 'POST'
+    });
+    return response;
+}
+
 async function validateOAuthAccessToken(token){
-    var url = "https://id.twitch.tv/oauth2/validate"
+    var url = "https://id.twitch.tv/oauth2/validate";
     const response = await fetch(url, {
         headers: {
             'Client-ID': appClientID,
             'Authorization': 'Bearer '+token
         },
-        dataType: "json",
-        type: 'GET'
+        method: 'GET'
     });
     return response.json();
 }
@@ -239,8 +267,7 @@ async function twitchAPIBackgroundCall(type, channels){
             'Client-ID': appClientID,
             'Authorization': 'Bearer '+OAuthAccessToken
 		},
-		dataType: "json",
-		type: 'GET'
+		method: 'GET'
 	});
 	return response.json();
 }
@@ -258,6 +285,7 @@ function updateCore(is_first_run,callback) {
         validateOAuthAccessToken(result.access_token).then(json => {
             if (json.status == 401) {
                 chrome.storage.local.set({access_token: ''});
+                callback();
                 return;
             }
 
