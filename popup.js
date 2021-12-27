@@ -630,13 +630,13 @@ function unfollowAll(){
 
 // Dirty, I know. But hey, it works and it's fast
 function loadIcon(game) {
-        var allowedIcons = ["apexlegends.png", "archeage.png", "battlefield3.png", "battlefield4.png", "callofdutyblackopsii.png", "callofdutyghosts.png", "chess.png", "counter-strikeglobaloffensive.png", "darksoulsii.png", "dayz.png", "destiny.png", "diabloiii.png", "diabloiiireaperofsouls.png", "don'tstarve.png", "dota2.png", "evolve.png", "fortnite.png", "garry'smod.png", "grandtheftautov.png", "guildwars2.png", "h1z1justsurvive.png", "h1z1kingofthekill.png", "hearthstone.png", "heroesofthestorm.png", "leagueoflegends.png", "left4dead2.png", "lethalleague.png", "lifeisfeudalyourown.png", "magicthegathering.png", "mariokart8.png", "middle-earthshadowofmordor.png", "minecraft.png", "music.png", "osu!.png", "outlast.png", "overwatch.png", "pathofexile.png", "payday2.png", "playerunknown'sbattlegrounds.png", "poker.png", "rift.png", "rocketleague.png", "runescape.png", "rust.png", "smite.png", "starcraftii.png", "thebindingofisaac.png", "thebindingofisaacrebirth.png", "theelderscrollsvskyrim.png", "theevilwithin.png", "thesims4.png", "thewalkingdead.png", "warframe.png", "wildstar.png", "worldoftanks.png", "worldofwarcraft.png"];
-        var generatedIcon = game.replace(/\:| /g,'').toLowerCase()+".png";
+    var allowedIcons = ["apexlegends.png", "archeage.png", "asmr.png", "battlefield3.png", "battlefield4.png", "callofdutyblackopsii.png", "callofdutyghosts.png", "chess.png", "counter-strikeglobaloffensive.png", "darksoulsii.png", "dayz.png", "destiny.png", "diabloiii.png", "diabloiiireaperofsouls.png", "don'tstarve.png", "dota2.png", "evolve.png", "escapefromtarkov.png", "justchatting.png", "fortnite.png", "finalfantasyxivonline.png", "garry'smod.png", "grandtheftautov.png", "guildwars2.png", "h1z1justsurvive.png", "h1z1kingofthekill.png", "hearthstone.png", "heroesofthestorm.png", "hades.png", "leagueoflegends.png", "left4dead2.png", "lostark.png", "lethalleague.png", "lifeisfeudalyourown.png", "magicthegathering.png", "mariokart8.png", "mariokart8deluxe.png", "newworld.png", "middle-earthshadowofmordor.png", "minecraft.png", "music.png", "osu!.png", "outlast.png", "overwatch.png", "pathofexile.png", "payday2.png", "playerunknown'sbattlegrounds.png", "poker.png", "rift.png", "rocketleague.png", "runescape.png", "rust.png", "smite.png", "starcraftii.png", "thebindingofisaac.png", "thebindingofisaacrebirth.png", "theelderscrollsvskyrim.png", "theevilwithin.png", "thesims4.png", "vrchat.png", "valorant.png", "teamfighttactics.png", "deadbydaylight.png", "thewalkingdead.png", "warframe.png", "wildstar.png", "worldoftanks.png", "worldofwarcraft.png"];
+    var generatedIcon = game.replace(/\:| /g,'').toLowerCase()+".png";
 
-        if (allowedIcons.includes(generatedIcon))
-                return "gameicons/"+generatedIcon;
-        else
-                return "icon.png";
+    if (allowedIcons.includes(generatedIcon))
+        return "gameicons/"+generatedIcon;
+    else
+        return "icon.png";
 }
 
 function onForceUpdate(){
