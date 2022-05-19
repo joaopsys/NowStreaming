@@ -33,6 +33,9 @@ Big thank you to Pedro for the new logo: https://github.com/pedroordep
 ==============================
 Changelog:
 
+3.2:
+- Replace the activeTab permissions with tabs in hopes to restore NowStreaming to the Chrome Store
+
 3.1:
 - Remove HTTP calls
 - Add missing game icons
