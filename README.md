@@ -33,6 +33,10 @@ Big thank you to Pedro for the new logo: https://github.com/pedroordep
 ==============================
 Changelog:
 
+3.3:
+- Remove the tabs permission completely. NowStreaming will no longer allow you to follow the stream you are
+currently watching with the click of a button, due to Google's absurd permission wording.
+
 3.2:
 - Replace the activeTab permissions with tabs in hopes to restore NowStreaming to the Chrome Store
 
