@@ -224,7 +224,7 @@ function extractAndSaveOAuthAccessToken(response_url){
 }
 
 function authorize(prompt, callback) {
-    var oauth_url = 'https://id.twitch.tv/oauth2/authorize?client_id=' + appClientID + '&redirect_uri=' + chrome.identity.getRedirectURL() + '&response_type=token&force_verify='+prompt+'&state='+OAuthState;
+    var oauth_url = 'https://id.twitch.tv/oauth2/authorize?client_id=' + appClientID + '&redirect_uri=' + chrome.identity.getRedirectURL() + '&response_type=token&force_verify='+prompt+'&scope=user%3Aread%3Afollows'+'&state='+OAuthState;
     return chrome.identity.launchWebAuthFlow({url: oauth_url, interactive: true}, callback);
 }
 
